@@ -7,7 +7,7 @@
 import sys
 from gi.repository import Gtk, Gdk, WebKit
 
-class Browser2:
+class Browser2(Gtk.VBox):
     version = "0.0.6"
     def __init__(self):
         # Import UI
@@ -20,7 +20,33 @@ class Browser2:
         self.win.show_all()
         self.win.resize(800, 600)
         self.win.set_title("Lousa Digital - Version " + self.version)
+
+        # Bind Events
+
+        # Top Menu =>
+        self.glade.get_object("FileExit").connect("activate",exit)
         #
+
+    def appendWebViem(self,wbv):
+        self.glade.get_object("row").add(wbv)
+        self.renderAll()
+        #...
+
+    def renderAll(self):
+        self.win.show_all()
+    #
+
+    #...
+
+class WebkitView:
+    def __init__(self):
+        self.view = WebKit.WebView()
+        self.view.open("http://www.google.com.br")
+        #...
+    #...
+
 if __name__ == "__main__":
  a = Browser2()
+ v = WebkitView()
+ a.appendWebViem(v.view)
  Gtk.main()
