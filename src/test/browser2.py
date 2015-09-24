@@ -18,7 +18,7 @@ class Browser2:
         # Instanciando Window
         self.win=self.glade.get_object("window1")
         self.win.show_all()
-        self.win.maximize()
+        self.win.resize(800, 600)
         self.win.set_title("Lousa Digital - Version " + self.version)
         #
 if __name__ == "__main__":
