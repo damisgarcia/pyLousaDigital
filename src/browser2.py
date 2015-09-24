@@ -8,9 +8,8 @@
 import sys
 import thread
 
+# from httpservice.httpserver import HttpServer
 from gi.repository import Gtk, Gdk, WebKit
-from HttpService.HttpServer import HttpServer
-
 import SimpleHTTPServer
 import SocketServer
 
