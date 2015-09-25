@@ -27,4 +27,8 @@ class HttpServer(Thread):
             exit
         #
     #...
+
+    def terminate(self):
+        exit
+    #...
 #

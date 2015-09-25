@@ -8,15 +8,17 @@
 import sys
 import thread
 
-# from httpservice.httpserver import HttpServer
-from gi.repository import Gtk, Gdk, WebKit
-import SimpleHTTPServer
-import SocketServer
+from gi.repository import Gtk, Gdk
+from httpservice.httpserver import HttpServer
+from browser.webkit import WebView
 
 class Browser2(Gtk.VBox):
     version = "0.0.6"
 
     def __init__(self):
+        # HttpServer
+        self.server = HttpServer()
+        self.server.start()
         # Import UI
         self.gladefile = "../glade/browser.glade"
         self.glade = Gtk.Builder()
@@ -27,33 +29,32 @@ class Browser2(Gtk.VBox):
         self.win.show_all()
         self.win.resize(800, 600)
         self.win.set_title("Lousa Digital - Version " + self.version)
+        # Instanciando WebView
+        self.appendWebViem( WebView().view )
 
         # Bind Events
 
         # Top Menu =>
-        self.glade.get_object("FileExit").connect("activate",exit)
+        self.glade.get_object("FileExit").connect("activate",self.exitAll())
     #
 
-    def appendWebViem(self,wbv):
-        self.glade.get_object("row").add(wbv)
+    def appendWebViem(self,webview):
+        self.glade.get_object("webview").add(webview)
         self.renderAll()
     #...
 
     def renderAll(self):
         self.win.show_all()
     #...
-#
 
-class WebkitView:
-    def __init__(self):
-        self.view = WebKit.WebView()
-        self.view.open("http://www.google.com.br")
+    def exitAll(self):
+        self.server.terminate()
+        exit
     #...
 #
 
 
 if __name__ == "__main__":
- a = Browser2()
- v = WebkitView()
- a.appendWebViem(v.view)
- Gtk.main()
+    a = Browser2()
+
+    Gtk.main()
