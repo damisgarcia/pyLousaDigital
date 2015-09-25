@@ -2,8 +2,7 @@
 <!-- Generated with glade 3.18.3 -->
 <interface>
   <requires lib="gtk+" version="3.12"/>
-  <object class="GtkAction" id="action1"/>
-  <object class="GtkApplicationWindow" id="window1">
+  <object class="GtkApplicationWindow" id="main">
     <property name="can_focus">False</property>
     <property name="has_resize_grip">True</property>
     <child>
@@ -90,13 +89,16 @@
           </packing>
         </child>
         <child>
-          <object class="GtkScrollbar" id="scrollbar1">
+          <object class="GtkScrolledWindow" id="webview">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="orientation">vertical</property>
+            <property name="can_focus">True</property>
+            <property name="shadow_type">in</property>
+            <child>
+              <placeholder/>
+            </child>
           </object>
           <packing>
-            <property name="expand">False</property>
+            <property name="expand">True</property>
             <property name="fill">True</property>
             <property name="position">1</property>
           </packing>

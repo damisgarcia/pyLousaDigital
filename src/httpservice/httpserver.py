@@ -24,11 +24,11 @@ class HttpServer(Thread):
             self.httpd.serve_forever()
         except Exception as e:
             print(e)
-            exit
+            sys.exit()
         #
     #...
 
     def terminate(self):
-        exit
+        self.httpd.server_close()
     #...
 #

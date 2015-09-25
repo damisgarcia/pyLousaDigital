@@ -12,7 +12,7 @@ from gi.repository import Gtk, Gdk
 from httpservice.httpserver import HttpServer
 from browser.webkit import WebView
 
-class Browser2(Gtk.VBox):
+class Main(Gtk.VBox):
     version = "0.0.6"
 
     def __init__(self):
@@ -25,17 +25,18 @@ class Browser2(Gtk.VBox):
         self.glade.add_from_file(self.gladefile)
         self.glade.connect_signals(self)
         # Instanciando Window
-        self.win=self.glade.get_object("window1")
+        self.win=self.glade.get_object("main")
         self.win.show_all()
         self.win.resize(800, 600)
         self.win.set_title("Lousa Digital - Version " + self.version)
+        self.win.connect("delete-event",self.exitFromClose)
         # Instanciando WebView
         self.appendWebViem( WebView().view )
 
         # Bind Events
 
         # Top Menu =>
-        self.glade.get_object("FileExit").connect("activate",self.exitAll())
+        self.glade.get_object("FileExit").connect("activate",self.exitFromMenu)
     #
 
     def appendWebViem(self,webview):
@@ -47,14 +48,19 @@ class Browser2(Gtk.VBox):
         self.win.show_all()
     #...
 
-    def exitAll(self):
+    def exitFromMenu(self,Args1):
         self.server.terminate()
-        exit
+        sys.exit()
+    #...
+
+    def exitFromClose(self,Args1,Args2):
+        self.server.terminate()
+        sys.exit()
     #...
 #
 
 
 if __name__ == "__main__":
-    a = Browser2()
-
+    a = Main()
+    
     Gtk.main()
