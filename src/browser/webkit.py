@@ -10,6 +10,6 @@ from gi.repository import WebKit
 class WebView:
     def __init__(self):
         self.view = WebKit.WebView()
-        self.view.open("http://www.google.com.br")
+        self.view.open("http://127.0.0.1:9000/www/")
     #...
 #
