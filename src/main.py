@@ -27,7 +27,7 @@ class Browser2(Gtk.VBox):
         # Instanciando Window
         self.win=self.glade.get_object("window1")
         self.win.show_all()
-        self.win.resize(800, 600)
+        self.win.resize(1024, 728)
         self.win.set_title("Lousa Digital - Version " + self.version)
         self.win.connect("delete-event",self.exitFromClose)
         # Instanciando WebView

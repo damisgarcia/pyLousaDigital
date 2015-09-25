@@ -3,18 +3,44 @@
 <head>
     <meta charset="utf-8"/>
     <!-- vendor.css -->
-    <link rel="stylesheet" href="app/bower_components/uikit/css/uikit.min.css"/>
+    <link rel="stylesheet" href="app/bower_components/uikit/css/uikit.almost-flat.min.css"/>
+    <link rel="stylesheet" href="app/bower_components/Ionicons/css/ionicons.min.css"/>
     <!-- end vendor.css -->
+    <link rel="stylesheet" href="assets/css/theme.css"/>
 </head>
 <body>
-  <h1>On the line</h1>
+  <div class="uk-grid tm-base">
+    <nav class="uk-width-2-10 uk-margin-left uk-margin-right tm-nav-left">
+      <ul class="uk-nav uk-margin-top">
+        <li class="uk-nav-header">Menu</li>
+        <li ui-sref-active="active">
+          <a ui-sref="galerie"><i class="ion-images"></i> Minhas Gravações</a>
+        </li>
+        <li class="uk-active" ui-sref-active="active">
+          <a ui-sref="lessons"><i class="ion-university"></i> Minhas Aulas</a>
+        </li>
+        <li class="uk-active" ui-sref-active="active">
+          <a ui-sref="account"><i class="ion-person"></i> Acesso</a>
+        </li>
+        <li ui-sref-active="active">
+          <a ui-sref="settings"><i class="ion-gear-b"></i> Configurações</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="uk-width-7-10">
+      <div class="uk-margin-large-top uk-margin-large-bottom">
+        <div ui-view></div>
+      </div>
+    </div>
+  </div>
+
   <!-- vendor.js -->
   <script src="app/bower_components/jquery/dist/jquery.min.js"></script>
   <script src="app/bower_components/uikit/js/uikit.min.js"></script>
   <script src="app/bower_components/angular/angular.min.js"></script>
   <script src="app/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
   <!-- end vendor.js -->
-
   <!-- application -->
   <script src="app/app.js"></script>
   <script src="app/scripts/controllers/main.js"></script>

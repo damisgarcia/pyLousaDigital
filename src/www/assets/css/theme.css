@@ -1,0 +1,70 @@
+/**
+*
+* Base
+*
+**/
+
+html,body{
+  background-color: #181818;
+}
+
+.tm-base{
+  background-color: #181818;
+  color:#dcdcdc;
+}
+
+.tm-well{
+  background-color: #313131;
+  padding:3rem 1rem;
+}
+
+/*
+*
+* HEADERS
+*
+*/
+
+h1,h2,h3,h4{
+  color:white;
+}
+
+
+/*
+*
+* NAVBARS
+*
+*/
+
+.tm-nav-left{
+  border-right: 1px solid #000;
+}
+
+.tm-nav-left .uk-nav{
+  margin-right: 0.75rem;
+}
+
+.tm-nav-left .uk-nav li > a{
+  font-size:0.7rem;
+  font-weight: bold;
+  color:#dcdcdc;
+}
+
+.tm-nav-left .uk-nav li > a i[class^=ion]{
+  font-weight: normal;
+  font-size:1.4rem;
+  margin-right: 0.6rem;
+}
+
+.tm-nav-left .uk-nav li:hover > a{
+  background-color:#00a8e6;
+  color:#fff;
+  border-radius: 0.3rem;
+}
+
+.tm-nav-left .uk-nav li.active > a{
+  border-left: 3px solid #00a8e6;
+}
+
+.tm-nav-left .uk-nav li.active:hover > a{
+  border-left: 3px solid #fff;
+}

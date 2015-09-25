@@ -9,29 +9,26 @@
  */
 angular.module('pyLousaDigitalApp',['ui.router'])
   .config(function($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise("/state1");
+    $urlRouterProvider.otherwise("/");
 
     $stateProvider
-      .state('state1', {
-        url: "/state1",
-        templateUrl: "partials/state1.html"
+      .state('galerie', {
+        url: "/",
+        templateUrl: "app/views/galerie.html"
       })
-      .state('state1.list', {
-        url: "/list",
-        templateUrl: "partials/state1.list.html",
-        controller: function($scope) {
-          $scope.items = ["A", "List", "Of", "Items"];
-        }
+
+      .state('lessons', {
+        url: "/",
+        templateUrl: "app/views/lessons.html"
       })
-      .state('state2', {
-        url: "/state2",
-        templateUrl: "partials/state2.html"
+
+      .state('account', {
+        url: "/",
+        templateUrl: "app/views/account.html"
       })
-      .state('state2.list', {
-        url: "/list",
-        templateUrl: "partials/state2.list.html",
-        controller: function($scope) {
-          $scope.things = ["A", "Set", "Of", "Things"];
-        }
-      });
+
+      .state('settings', {
+        url: "/",
+        templateUrl: "app/views/settings.html"
+      })
   });
