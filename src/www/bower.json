@@ -1,0 +1,22 @@
+{
+  "name": "pyLousaDigital",
+  "version": "0.6.0",
+  "homepage": "https://github.com/damisgarcia/pyLousaDigital",
+  "authors": [
+    "damisgarcia <damisgarcia@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "Ionicons": "ionicons#~2.0.1",
+    "angular": "~1.4.6",
+    "angular-i18n": "~1.4.6",
+    "uikit": "~2.22.0"
+  }
+}
