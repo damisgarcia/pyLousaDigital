@@ -10,12 +10,21 @@ audio = "Microfone (USB Web-CAM       )"
 
 args = ffmpeg.FFMpegArgs()
 
-#TODO: -thread_queue_size e um argumento do input, colocar ele junto com os inputs.
+
+#Linux
+#args.videoIn = ffmpeg.x11DesktopLinuxCamera('/dev/video0')
+#args.audioIn = ffmpeg.pulseAudio()
+
+#Windows
 args.videoIn = ffmpeg.gdiDesktopDShowCamera(camera)
 args.audioIn = ffmpeg.dshowAudio(audio)
-args.codecs = ffmpeg.libx264()
 
-args.output = "out.avi"
+#Codecs(Independente de plataforma)
+args.videoCodec = ffmpeg.libx264()
+args.audioCodec = ffmpeg.aac()
+
+
+args.output = "out.mp4"
 
 print args
 
