@@ -12,23 +12,40 @@ angular.module('pyLousaDigitalApp',['ui.router'])
     $urlRouterProvider.otherwise("/");
 
     $stateProvider
-      .state('galerie', {
+      .state('media', {
         url: "/",
-        templateUrl: "app/views/galerie.html"
+        templateUrl: "app/views/media.html",
+        controller: "MediaCtrl"
+      })
+
+      .state('media.detail', {
+        url: "/media/:id",
+        templateUrl: "app/views/media-detail.html",
+        controller: "MediaDetailCtrl"
       })
 
       .state('lessons', {
-        url: "/",
+        url: "/lessons",
         templateUrl: "app/views/lessons.html"
       })
 
       .state('account', {
-        url: "/",
+        url: "/account",
         templateUrl: "app/views/account.html"
       })
 
       .state('settings', {
-        url: "/",
+        url: "/settings",
         templateUrl: "app/views/settings.html"
       })
-  });
+    })
+
+    .run(function($rootScope,$http){
+      $rootScope.$log = []
+
+      $rootScope.$capture = function(){
+        $http.get("/capture/new").success(function(data){
+          $rootScope.$log.push(data)
+        })
+      }
+    })

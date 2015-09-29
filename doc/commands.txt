@@ -1,0 +1,8 @@
+// Captura o primeiro frame do vídeo
+// -ss => tempo que será extraido o frame
+// -vframes => quantidades de frames
+// -an => áudio desabilitado
+// -y => sim para tudo
+// -i => entrada
+
+ffmpeg -y -i 3de3d033-d6fd-430d-b154-4eada887c35d.webm -vframes 1 -ss 5 -an 3de3d033-d6fd-430d-b154-4eada887c35d.jpg

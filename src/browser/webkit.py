@@ -8,8 +8,9 @@
 from gi.repository import WebKit
 
 class WebView:
-    def __init__(self):
+    def __init__(self,port):
+        print("http://127.0.0.1:%d/www/" % port)
         self.view = WebKit.WebView()
-        self.view.open("http://127.0.0.1:9000/www/")
+        self.view.open("http://127.0.0.1:%d/www/" % port)
     #...
 #

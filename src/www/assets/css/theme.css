@@ -6,6 +6,7 @@
 
 html,body{
   background-color: #181818;
+  height: 100%;
 }
 
 .tm-base{
@@ -13,10 +14,20 @@ html,body{
   color:#dcdcdc;
 }
 
+.tm-wrapper{
+  min-height: 100%;
+  margin-bottom: -50px;
+}
+.tm-wrapper:after {
+  content: "";
+  display: block;
+}
+
 .tm-well{
   background-color: #313131;
   padding:3rem 1rem;
 }
+
 
 /*
 *
@@ -26,6 +37,23 @@ html,body{
 
 h1,h2,h3,h4{
   color:white;
+}
+
+/*
+*
+* FOOTER
+*
+*/
+
+.tm-footer{
+  background-color: #111;
+  height: 50px;
+  margin:0 !important;
+  padding:0;
+}
+
+.tm-footer .uk-open > .uk-dropdown{
+  margin-right:-80px;
 }
 
 
@@ -67,4 +95,35 @@ h1,h2,h3,h4{
 
 .tm-nav-left .uk-nav li.active:hover > a{
   border-left: 3px solid #fff;
+}
+
+.tm-right-action i{
+  font-size:1.5rem;
+  margin:auto 0.6rem;
+}
+
+/** Media Grid **/
+.tm-media-grid{
+  max-height: 100%;
+  overflow: auto;
+}
+
+.tm-media .uk-close{
+  font-size:2rem;
+  margin-bottom:1.2rem;
+  opacity:0.7;
+}
+
+.tm-media .uk-close:hover{
+  opacity:0.9;
+}
+
+.tm-media video{
+  background-color: black;
+}
+
+/* THUMB */
+.tm-thumb .title{
+  text-align: center;
+  font-size:0.6rem;
 }
