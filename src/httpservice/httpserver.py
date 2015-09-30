@@ -11,16 +11,30 @@ import json
 
 import SimpleHTTPServer
 import SocketServer
+
 from io.io import FileManager
+from ffmpeg.basic import Basic
+
 from threading import Thread
 
 class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
     def do_GET(self):
+        if not hasattr(self,'Recorder'):
+            self.Recorder = Basic()
         if self.path=='/capture/new':
+            self.Recorder.start()
+            self.Recorder.join()
             self.send_response(200)
             self.send_header('Content-type','application/json')
             self.end_headers()
-            self.wfile.write('{"success":"Teste Okay!" }') #call sample function here
+            self.wfile.write('{"success":"Recording" }') #call sample function here
+            return
+        elif self.path=='/capture/save':
+            self.Recorder.terminate()
+            self.send_response(200)
+            self.send_header('Content-type','application/json')
+            self.end_headers()
+            self.wfile.write('{"success":"Is Stoped" }') #call sample function here
             return
         elif self.path=='/repository/list':
             self.send_response(200)

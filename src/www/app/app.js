@@ -42,9 +42,18 @@ angular.module('pyLousaDigitalApp',['ui.router'])
 
     .run(function($rootScope,$http){
       $rootScope.$log = []
+      $rootScope.$isRecording = false
 
       $rootScope.$capture = function(){
         $http.get("/capture/new").success(function(data){
+          $rootScope.$isRecording = true
+          $rootScope.$log.push(data)
+        })
+      }
+
+      $rootScope.$stop = function(){
+        $http.get("/capture/save").success(function(data){
+          $rootScope.$isRecording = false
           $rootScope.$log.push(data)
         })
       }
