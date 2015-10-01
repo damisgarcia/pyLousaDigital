@@ -12,37 +12,47 @@ import json
 import SimpleHTTPServer
 import SocketServer
 
+import os, signal, subprocess
+
 from io.io import FileManager
 from ffmpeg.basic import Basic
 
 from threading import Thread
 
 class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
+    queue_recordings = []
+
+    def __init__(self,request, client_address, server, fake=False):
+        if fake == False:
+            SimpleHTTPServer.SimpleHTTPRequestHandler.__init__(self, request, client_address, server)
+        pass
+    #
+
     def do_GET(self):
-        if not hasattr(self,'Recorder'):
-            self.Recorder = Basic()
         if self.path=='/capture/new':
-            self.Recorder.start()
-            self.Recorder.join()
+            self.queue_recordings.append(Basic())
+            self.queue_recordings[-1].start()
+
             self.send_response(200)
             self.send_header('Content-type','application/json')
             self.end_headers()
-            self.wfile.write('{"success":"Recording" }') #call sample function here
+            self.wfile.write('{"success":"Recording" }')
             return
-        elif self.path=='/capture/save':
-            self.Recorder.terminate()
+        elif self.path=='/capture/save':            
+            os.killpg(self.queue_recordings[-1].process.pid, signal.SIGTERM)
+            self.queue_recordings[-1].createThumbnail()
+
             self.send_response(200)
             self.send_header('Content-type','application/json')
             self.end_headers()
-            self.wfile.write('{"success":"Is Stoped" }') #call sample function here
+            self.wfile.write('{"success":"Is Stoped" }')
             return
         elif self.path=='/repository/list':
             self.send_response(200)
             self.send_header('Content-type','application/json')
             self.end_headers()
-            # ffmpeg -video_size 1024x768 -framerate 25 -f x11grab -i :0.0+100,200 output.mp4
             body = json.dumps({'recorders': FileManager("www/files").getFiles() })
-            self.wfile.write(body) #call sample function here
+            self.wfile.write(body)
             return
         else:
             SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)
