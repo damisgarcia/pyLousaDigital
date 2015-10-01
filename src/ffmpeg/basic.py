@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# encoding utf-8
+# -*- coding: utf-8 -*-
 
 #
 # @author: Damis Garcia
@@ -24,11 +24,12 @@ class Basic(Thread):
         self.process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True, preexec_fn=os.setsid)
     #
 
+    """ Captura um específico frame da aula recém capturada """
     def createThumbnail(self):
         for count in range(1,60):
-            command = "ffmpeg -y -i www/files/%s.mp4 -vframes 1 -ss 5 -an www/files/%s.jpg" %(self.output,self.output)
+            print(self.output)
+            command = "ffmpeg -y -i www/files/%s.mp4 -vframes 1 -ss 1 -an www/files/%s.jpg" %(self.output,self.output)
             signal = subprocess.call(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
-            print(signal)
             if(signal == 0):
                 break
             else:

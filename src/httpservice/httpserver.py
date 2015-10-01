@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# encoding utf-8
+# -*- coding: utf-8 -*-
 
 #
 # @author: Damis Garcia
@@ -38,7 +38,7 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write('{"success":"Recording" }')
             return
-        elif self.path=='/capture/save':            
+        elif self.path=='/capture/save':
             os.killpg(self.queue_recordings[-1].process.pid, signal.SIGTERM)
             self.queue_recordings[-1].createThumbnail()
 
