@@ -12,12 +12,12 @@ args = ffmpeg.FFMpegArgs()
 
 
 #Linux
-#args.videoIn = ffmpeg.x11DesktopLinuxCamera('/dev/video0')
-#args.audioIn = ffmpeg.pulseAudio()
+args.videoIn = ffmpeg.x11DesktopLinuxCamera('/dev/video0')
+args.audioIn = ffmpeg.pulseAudio()
 
 #Windows
-args.videoIn = ffmpeg.gdiDesktopDShowCamera(camera)
-args.audioIn = ffmpeg.dshowAudio(audio)
+#args.videoIn = ffmpeg.gdiDesktopDShowCamera(camera)
+#args.audioIn = ffmpeg.dshowAudio(audio)
 
 #Codecs(Independente de plataforma)
 args.videoCodec = ffmpeg.libx264()
@@ -28,5 +28,5 @@ args.output = "out.mp4"
 
 print args
 
-print ffmpeg.capture(args)
+#print ffmpeg.capture(args)
 
