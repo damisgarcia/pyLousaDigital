@@ -40,7 +40,7 @@ angular.module('pyLousaDigitalApp',['ui.router'])
       })
     })
 
-    .run(function($rootScope,$http){
+    .run(function($rootScope,$http,$state){
       $rootScope.$log = []
       $rootScope.$isRecording = false
 
@@ -55,6 +55,7 @@ angular.module('pyLousaDigitalApp',['ui.router'])
         $http.get("/capture/save").success(function(data){
           $rootScope.$isRecording = false
           $rootScope.$log.push(data)
+          $state.go($state.current, {reload: true}); // Reload View
         })
       }
     })

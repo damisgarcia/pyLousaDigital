@@ -16,11 +16,13 @@ angular.module('pyLousaDigitalApp')
     $http.get("/repository/list").success(function(data){
       angular.forEach(data.recorders,function(ele,index){
         ele.path = ele.path.replace("www/","")
-        ele.filename = ele.filename.match(/[\w\d\.\-\_]+$/)[0]
+        var regex = ele.filename.match(/^([\w\d\S]+)\/([\w\d\S]+)\.([\w\d]+)/)
+        ele.extension = regex[3]
+        ele.name = regex[2]
       })
 
       angular.forEach(data.recorders,function(ele,index){
-        ele.filename.match(/\.jpg$/) ? $scope.repository.thumbnails.push(ele) : $scope.repository.media.push(ele)
+        ele.extension == "jpg" ? $scope.repository.thumbnails.push(ele) : $scope.repository.media.push(ele)
       })
     })
   });

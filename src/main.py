@@ -8,12 +8,20 @@
 import sys
 import thread
 
-from gi.repository import Gtk, Gdk
-from httpservice.httpserver import HttpServer
-from browser.webkit import WebView
+from lousadigital.so.client import *
+
+if isLinux():
+    from gi.repository import Gtk
+    from gi.repository import Gdk
+if isWindows():
+    import gtk as Gtk
+    from gtk import gdk as Gdk
+
+from lousadigital.httpservice.httpserver import HttpServer
+from lousadigital.browser.webkit import WebView
 
 class RunTime(Gtk.VBox):
-    version = "0.0.6"
+    version = "0.1.3"
 
     def __init__(self):
         # HttpServer

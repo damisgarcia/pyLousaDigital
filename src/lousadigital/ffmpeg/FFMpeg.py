@@ -7,8 +7,8 @@ FFMPEG_EXEC = "ffmpeg"
 
 import gtk
 
-SCREEN_WIDTH =  gtk.gdk.screen_width()
-SCREEN_HEIGHT = gtk.gdk.screen_height()
+SCREEN_WIDTH =  1920
+SCREEN_HEIGHT = 1080
 
 #-----------------------------------ARGUMENTOS DO FFMPEG---------------------------------------------------------------------------
 class FFMpegArgs(object):
@@ -27,7 +27,7 @@ class FFMpegArgs(object):
 
 	@property
 	def commandLine(self):
-		command = FFMPEG_EXEC + " " + self.initialArgs		
+		command = FFMPEG_EXEC + " " + self.initialArgs
 
 		if self.input != None:
 			command += " -i " + self.input
@@ -56,7 +56,7 @@ class FFMpegArgs(object):
 
 class FFMpegCaptureArgs(object):
 
-	initialArgs = '-thread_queue_size 192'
+	initialArgs = ''#'-thread_queue_size 192'
 	#nome do dispositivo do ffmpeg(-f arg) que ira capturar a imagem de fundo
 	bgDevice = "gdigrab"
 	#nome do dispositivo de input para a imagem de fundo
@@ -83,27 +83,27 @@ class FFMpegCaptureArgs(object):
 		command = ' %s -f %s'  % (self.initialArgs, self.bgDevice)
 		if self.bgWidth != None and self.bgHeight != None:
 			command += ' -video_size %dX%d' % (self.bgWidth, self.bgHeight)
-		
+
 		command += ' -i %s ' % (self.bgInput)
 		#command = ' %s -f %s -i %s ' % (self.initialArgs, self.bgDevice, self.bgInput )
-		
+
 		if self.fgDevice != None:
 			command += ' %s -f %s -rtbufsize 1500M' % (self.initialArgs, self.fgDevice)
-			
+
 			if self.fgWidth != None and self.fgHeight != None:
 				command += ' -video_size %dX%d' % (self.fgWidth, self.fgHeight)
-		
+
 			command += ' -i %s ' % (self.fgInput)
 			#command += ' %s -f %s -i %s ' % (self.initialArgs, self.fgDevice, self.fgInput )
 
 			command += ' -filter_complex "[0:v]setpts=PTS-STARTPTS[background];[1:v]setpts=PTS-STARTPTS,scale= %d:%d[foreground];[background][foreground]overlay=main_w-overlay_w-%d:main_h-overlay_h-%d"' % (self.fgArea[0],self.fgArea[1],self.fgPadding[0],self.fgPadding[1]);
 
-			#command += ' -filter_complex "[0:v]setpts=PTS-STARTPTS[background];' 
-			#+ '[1:v]setpts=PTS-STARTPTS,scale= %d:%d' + str(self.fgArea[0]) + ':' + str(self.fgArea[1]) + '[foreground];' 
-			#+ '[background][foreground]overlay=main_w-overlay_w-' + str(self.fgPadding[0]) 
+			#command += ' -filter_complex "[0:v]setpts=PTS-STARTPTS[background];'
+			#+ '[1:v]setpts=PTS-STARTPTS,scale= %d:%d' + str(self.fgArea[0]) + ':' + str(self.fgArea[1]) + '[foreground];'
+			#+ '[background][foreground]overlay=main_w-overlay_w-' + str(self.fgPadding[0])
 			#+ ':main_h-overlay_h-' + str(self.fgPadding[1]) + '"';
 
-		
+
 		return command + ' '
 
 	def __repr__(self):
@@ -147,7 +147,7 @@ class FFMpegAudioCodecArgs(object):
 
 	initialArgs = ""
 	audioCodec = "libvorbis"
-	audioBitrate = 128	
+	audioBitrate = 128
 
 	@property
 	def commandLine(self):
@@ -167,26 +167,24 @@ def capture(ffmpegArgs):
 		os.remove(ffmpegArgs.output)
 
 	return _execute(ffmpegArgs)
-	
+
 
 def convert(ffmpegArgs):
 	if os.path.isfile(ffmpegArgs.output):
 		os.remove(ffmpegArgs.output)
 
 	if(os.path.isfile(ffmpegArgs.input)):
-		return _execute(ffmpegArgs)	
+		return _execute(ffmpegArgs)
 
 	return False
-	
 
 
-def _execute(ffmpegArgs):		
 
-	processCode = subprocess.call(ffmpegArgs.commandLine, shell = True)
-
+def _execute(ffmpegArgs):
+	processCode = subprocess.Popen(ffmpegArgs.commandLine, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True, preexec_fn=os.setsid)
 	#call retorna 0 para sucesso, e != 0 para processos mal sucedidos. Inverte isso para entrar no esquema de true(se o processo acabou) e false(caso contrario)
-	return not(processCode)
-	
+	return processCode
+
 
 #-------------------------------------FACTORIES--------------------------------------------------------------------------
 
@@ -200,7 +198,7 @@ def gdiDesktopDShowCamera(dshowDispositive):
 	args.bgInput = "desktop";
 
 	args.fgDevice = "dshow";
-	
+
 	args.fgWidth = 320
 	args.fgHeight = 240
 
@@ -228,9 +226,9 @@ def x11DesktopLinuxCamera(linuxDispositive):
 	args.bgDevice = "x11grab"
 	args.bgInput = ":0.0+100,200" # a partir de que ponto comecar a capturar
 
-	args.fgDevice = "vfl2"
+	args.fgDevice = "v4l2"
 	args.fgInput = linuxDispositive
-	
+
 	args.fgWidth = 320
 	args.fgHeight = 240
 
@@ -260,33 +258,33 @@ def libvpx():
 	scaleRatio = 1.5
 	newWidth = SCREEN_WIDTH/scaleRatio
 	newHeight = SCREEN_HEIGHT/scaleRatio
-	args.videoWidth =  int( newWidth if newWidth % 2 == 0 else newWidth - 1 ) 
+	args.videoWidth =  int( newWidth if newWidth % 2 == 0 else newWidth - 1 )
 	args.videoHeight = int( newHeight if newHeight % 2 == 0 else newHeight - 1)
-	
+
 	return args
 
 
 def libx264():
 
 	args = FFMpegVideoCodecArgs()
-	
+
 	args.videoCodec = "libx264"
 	args.crf = 30
 	args.videoBitrate = 256
-	
-	scaleRatio = 1.5	
+
+	scaleRatio = 1.5
 	newWidth = SCREEN_WIDTH/scaleRatio
 	newHeight = SCREEN_HEIGHT/scaleRatio
-	args.videoWidth =  int( newWidth if newWidth % 2 == 0 else newWidth - 1 ) 
+	args.videoWidth =  int( newWidth if newWidth % 2 == 0 else newWidth - 1 )
 	args.videoHeight = int( newHeight if newHeight % 2 == 0 else newHeight - 1)
-	
+
 	return args
 
 #--------------------------CODEC AUDIO----------------------------------
 
 def libvorbis():
 	args = FFMpegAudioCodecArgs()
-	
+
 	args.audioCodec = "libvorbis"
 	args.audioBitrate = 64
 

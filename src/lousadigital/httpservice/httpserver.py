@@ -14,8 +14,8 @@ import SocketServer
 
 import os, signal, subprocess
 
-from io.io import FileManager
-from ffmpeg.basic import Basic
+from lousadigital.io.io import FileManager
+from lousadigital.ffmpeg.basic import Basic
 
 from threading import Thread
 

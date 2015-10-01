@@ -28,5 +28,9 @@ args.output = "out.mp4"
 
 print args
 
+<<<<<<< Updated upstream
 #print ffmpeg.capture(args)
 
+=======
+print ffmpeg.capture(args)
+>>>>>>> Stashed changes
