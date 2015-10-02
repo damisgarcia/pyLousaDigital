@@ -27,4 +27,24 @@ class FileManager:
         #...
         return files
     #
+
+    def rename(self,old,new):
+        try:
+            for i in range(1,len(old)) :
+                os.rename(old[i], new[i])
+            #
+            return { "success":True }
+        except Exception as e:
+            return { "error:" "não foi possível renomear este arquivo" }
+    #
+
+    def remove(self,targets):
+        try:
+            for target in targets :
+                os.remove(target)
+            #
+            return { "success":True }
+        except Exception as e:
+            return { "error":"não foi possível excluir este arquivo" }
+    #
 #

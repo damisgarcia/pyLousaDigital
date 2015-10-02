@@ -10,6 +10,9 @@ import thread
 
 from lousadigital.so.client import *
 
+import pygtk
+pygtk.require("2.0")
+
 if isLinux():
     from gi.repository import Gtk
     from gi.repository import Gdk
@@ -24,6 +27,7 @@ class RunTime(Gtk.VBox):
     version = "0.1.3"
 
     def __init__(self):
+        print( "Gtk Version:%d" %(Gtk.get_major_version()) )
         # HttpServer
         self.server = HttpServer()
         self.server.start()
