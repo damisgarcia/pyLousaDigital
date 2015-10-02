@@ -7,6 +7,8 @@ FFMPEG_EXEC = "ffmpeg"
 
 import gtk
 
+import lousadigital.so.client
+
 SCREEN_WIDTH =  1920
 SCREEN_HEIGHT = 1080
 
@@ -15,7 +17,7 @@ class FFMpegArgs(object):
 
 	input = None
 
-	initialArgs = ""
+	initialArgs = '-y'
 
 	videoIn = None
 	audioIn = None
@@ -116,12 +118,12 @@ import multiprocessing
 class FFMpegVideoCodecArgs(object):
 
 	initialArgs = ""
-	videoCodec = "libvpx"
+	videoCodec = None
 	"""
 	  Indica a qualidade. Varia entre 4 e 63 no libvpx e entre 0 e 51 no
 	  libx264. A intensidade do intervalo varia exponencialmente
 	 """
-	crf = 10
+	crf = None
 	videoBitrate = 512
 	videoWidth = None
 	videoHeight = None
@@ -131,7 +133,9 @@ class FFMpegVideoCodecArgs(object):
 
 	@property
 	def commandLine(self):
-		command = " %s -codec:v %s -crf %d -b:v %dk -threads %d " % (self.initialArgs, self.videoCodec, self.crf, self.videoBitrate, self.numberThreads)
+		command = ' ' + self.initialArgs
+		if(self.videoCodec != None):
+			command += ' -codec:v %s -crf %d -b:v %dk -threads %d ' % (self.initialArgs, self.videoCodec, self.crf, self.videoBitrate, self.numberThreads)
 		if self.videoWidth != None and self.videoHeight != None:
 			command += '-s %dx%d' % (self.videoWidth, self.videoHeight)
 
@@ -161,6 +165,7 @@ class FFMpegAudioCodecArgs(object):
 #-------------------------------METODOS PARA CHAMADAS EXTERNAS--------------------------------------------------------------------------------------
 import os
 import subprocess
+import signal
 
 def capture(ffmpegArgs):
 	if os.path.isfile(ffmpegArgs.output):
@@ -178,12 +183,23 @@ def convert(ffmpegArgs):
 
 	return False
 
+class FFMpegExecutor(object):
 
+	process = None
+	args = None
+	
+	def __init__(self, ffmpegArgs):
+		self.args = ffmpegArgs
+		#self.process = subprocess.Popen(ffmpegArgs.commandLine, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+		#processCode = subprocess.Popen(ffmpegArgs.commandLine, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True, preexec_fn=os.setsid)
+		#call retorna 0 para sucesso, e != 0 para processos mal sucedidos. Inverte isso para entrar no esquema de true(se o processo acabou) e false(caso contrario)
+		#return processCode
+	def execute(self):
+		process = subprocess.Popen(ffmpegArgs.commandLine, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+		return process.wait()
 
-def _execute(ffmpegArgs):
-	processCode = subprocess.Popen(ffmpegArgs.commandLine, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True, preexec_fn=os.setsid)
-	#call retorna 0 para sucesso, e != 0 para processos mal sucedidos. Inverte isso para entrar no esquema de true(se o processo acabou) e false(caso contrario)
-	return processCode
+	def stop(self):
+		process.send_signal(signal.CTRL_C_EVENT)
 
 
 #-------------------------------------FACTORIES--------------------------------------------------------------------------
@@ -194,21 +210,39 @@ def _execute(ffmpegArgs):
 def gdiDesktopDShowCamera(dshowDispositive):
 	args = FFMpegCaptureArgs();
 	initialArgs = '-thread_queue_size 128'
-	args.bgDevice = "gdigrab";
-	args.bgInput = "desktop";
+	args.bgDevice = "gdigrab"
+	args.bgInput = "desktop"
 
-	args.fgDevice = "dshow";
+	args.fgDevice = "dshow"
 
 	args.fgWidth = 320
 	args.fgHeight = 240
 
-	args.fgInput = "video=\""+dshowDispositive+"\"";
+	args.fgInput = "video=\""+dshowDispositive+"\""
 	args.fgBufferSize = 2048
 
-	args.fgPadding = (5,5);
-	args.fgArea = (320, -1);
+	args.fgPadding = (5,5)
+	args.fgArea = (320, -1)
 
 	return args
+
+def gdiDesktop():
+	args = FFMpegCaptureArgs();
+	initialArgs = '-thread_queue_size 128'
+	args.bgDevice = "gdigrab"
+	args.bgInput = "desktop"
+	
+	return args
+
+
+def dshowCamera(dshowDispositive):
+	args = FFMpegCaptureArgs();
+	#initialArgs = '-thread_queue_size 128'
+	args.bgDevice = "dshow"
+	args.bgInput = "video=\""+dshowDispositive+"\""
+
+	return args
+
 
 def dshowAudio(dshowAudioInput):
 	args = FFMpegCaptureArgs();
@@ -222,7 +256,6 @@ def dshowAudio(dshowAudioInput):
 
 def x11DesktopLinuxCamera(linuxDispositive):
 	args = FFMpegCaptureArgs()
-	#initialArgs = '-thread_queue_size 64'
 	args.bgDevice = "x11grab"
 	args.bgInput = ":0.0+100,200" # a partir de que ponto comecar a capturar
 
@@ -238,6 +271,22 @@ def x11DesktopLinuxCamera(linuxDispositive):
 	return args
 
 
+def x11Desktop():
+	args = FFMpegCaptureArgs()
+	args.bgDevice = "x11grab"
+	args.bgInput = ":0.0+100,200" # a partir de que ponto comecar a capturar
+
+	return args
+
+
+def video4linuxCamera(linuxDispositive):
+	args = FFMpegCaptureArgs()
+	args.bgDevice = "v4l2"
+	args.bgInput = linuxDispositive 
+
+	return args
+
+#pode ser melhorado
 def pulseAudio():
 	args = FFMpegCaptureArgs();
 	args.bgDevice = "pulse"
@@ -288,6 +337,7 @@ def libvorbis():
 	args.audioCodec = "libvorbis"
 	args.audioBitrate = 64
 
+
 def aac():
 	args = FFMpegAudioCodecArgs()
 
@@ -296,3 +346,85 @@ def aac():
 	args.audioBitrate = 64
 
 	return args
+
+
+#-------------------------------------PRESETS--------------------------------------------------------------------------
+
+def createThumbnail(videoIn, thumbnailName):
+	args = FFMpegArgs()
+	args.input = videoIn
+
+	args.videoCodec = FFMpegVideoCodecArgs()
+	args.videoCodec.initialArgs = '-vframes 1 -ss 1 -an'
+
+	args.output = thumbnailName
+
+	return _execute(args)
+
+
+def captureAudioOnly(outputFile,audioInput):
+
+	args = FFMpegArgs()
+	if client.isWindows():
+		args.audioIn = dshowAudio(audioInput)
+		args.audioCodec = aac()	
+
+	elif client.isLinux():
+		args.audioIn = pulseAudio()
+		args.audioCodec = aac()
+
+	args.output = outputFile
+
+	return capture(args)
+
+
+def captureWebcam(outputFile, videoInput, audioInput):
+	args = FFMpegArgs()
+	if client.isWindows():
+		args.videoIn = dshowCamera(videoInput)
+		args.audioIn = dshowAudio(audioInput)
+		args.audioCodec = aac()	
+
+	elif client.isLinux():
+		args.videoIn = video4linuxCamera(videoInput)
+		args.audioIn = pulseAudio()
+		args.audioCodec = aac()
+
+	args.output = outputFile
+
+	return capture(args)
+
+
+def captureDesktop(outputFile, audioInput):
+	args = FFMpegArgs()
+	if client.isWindows():
+		args.videoIn = gdiDesktop()
+		args.audioIn = dshowAudio(audioInput)
+		args.audioCodec = aac()	
+
+	elif client.isLinux():
+		args.videoIn = x11Desktop()
+		args.audioIn = pulseAudio()
+		args.audioCodec = aac()
+
+	args.output = outputFile
+
+	return capture(args)
+
+
+def captureWebcamAndDesktop(outputFile, videoInput, audioInput):
+	args = FFMpegArgs()
+	if client.isWindows():
+		args.videoIn = gdiDesktopDShowCamera(videoInput)
+		args.audioIn = dshowAudio(audioInput)
+		args.audioCodec = aac()	
+
+	elif client.isLinux():
+		args.videoIn = x11DesktopLinuxCamera(videoInput)
+		args.audioIn = pulseAudio()
+		args.audioCodec = aac()
+
+	args.output = outputFile
+
+	return capture(args)
+
