@@ -16,6 +16,7 @@ import os, signal, subprocess
 
 from lousadigital.io.io import FileManager
 from lousadigital.ffmpeg.basic import Basic
+import lousadigital.ffmpeg.FFMpeg as ffmpeg
 
 from threading import Thread
 
@@ -30,7 +31,7 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
     def do_GET(self):
         if self.path=='/capture/new':
-            self.queue_recordings.append(Basic())
+            self.queue_recordings.append(Basic(ffmpeg.captureWebcamAndDesktop()))
             self.queue_recordings[-1].start()
 
             self.send_response(200)
@@ -39,6 +40,7 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.wfile.write('{"success":"Recording" }')
             return
         elif self.path=='/capture/save':
+            self.queue_recordings[-1].ffmpegExec.stop()
             os.killpg(self.queue_recordings[-1].process.pid, signal.SIGTERM)
             self.queue_recordings[-1].createThumbnail()
 

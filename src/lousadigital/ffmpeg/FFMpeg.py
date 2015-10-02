@@ -196,7 +196,8 @@ class FFMpegExecutor(object):
 		return process.wait()
 
 	def stop(self):
-		process.send_signal(signal.CTRL_C_EVENT)		
+		if process != None:
+			process.send_signal(signal.CTRL_C_EVENT)		
 
 
 #-------------------------------------FACTORIES--------------------------------------------------------------------------
@@ -356,10 +357,10 @@ def createThumbnail(videoIn, thumbnailName):
 
 	args.output = thumbnailName
 
-	return _execute(args)
+	return FFMpegExecutor(args)
 
 
-def captureAudioOnly(outputFile,audioInput):
+def captureAudioOnly(outputFile = "out.mp4", audioInput = "Microfone (USB Web-CAM       )"):
 
 	args = FFMpegArgs()
 	if client.isWindows():
@@ -372,10 +373,10 @@ def captureAudioOnly(outputFile,audioInput):
 
 	args.output = outputFile
 
-	return capture(args)
+	return FFMpegExecutor(args)
 
 
-def captureWebcam(outputFile, videoInput, audioInput):
+def captureWebcam(outputFile = "out.mp4", videoInput = "USB Web-CAM       ", audioInput = "Microfone (USB Web-CAM       )"):
 	args = FFMpegArgs()
 	if client.isWindows():
 		args.videoIn = dshowCamera(videoInput)
@@ -389,10 +390,10 @@ def captureWebcam(outputFile, videoInput, audioInput):
 
 	args.output = outputFile
 
-	return capture(args)
+	return FFMpegExecutor(args)
 
 
-def captureDesktop(outputFile, audioInput):
+def captureDesktop(outputFile = "out.mp4", audioInput = "Microfone (USB Web-CAM       )"):
 	args = FFMpegArgs()
 	if client.isWindows():
 		args.videoIn = gdiDesktop()
@@ -406,10 +407,10 @@ def captureDesktop(outputFile, audioInput):
 
 	args.output = outputFile
 
-	return capture(args)
+	return FFMpegExecutor(args)
 
 
-def captureWebcamAndDesktop(outputFile, videoInput, audioInput):
+def captureWebcamAndDesktop(outputFile = "out.mp4", videoInput = "USB Web-CAM       ", audioInput = "Microfone (USB Web-CAM       )"):
 	args = FFMpegArgs()
 	if client.isWindows():
 		args.videoIn = gdiDesktopDShowCamera(videoInput)
@@ -423,5 +424,5 @@ def captureWebcamAndDesktop(outputFile, videoInput, audioInput):
 
 	args.output = outputFile
 
-	return capture(args)
+	return FFMpegExecutor(args)
 

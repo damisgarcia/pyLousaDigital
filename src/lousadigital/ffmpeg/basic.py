@@ -16,27 +16,23 @@ class Basic(Thread):
     target = "www/files/"
     output = ""
 
-    def __init__(self):
+    ffmpegExec = None
+
+    def __init__(self,ffmpegExec):
         Thread.__init__(self)
+
+        self.ffmpegExec = ffmpegExec
     #
 
     def run(self):
         dt = datetime.now()
         self.output = dt.strftime("%d-%B-%Y_%I:%M:%S")
 
-        # args = FFMpegArgs()
-        #
-        # args.videoIn = x11DesktopLinuxCamera('/dev/video0')
-        # args.audioIn = pulseAudio()
-        # args.videoCodec = libx264()
-        # args.audioCodec = aac()
-        #
-        # args.output = "%s%s.mp4"%(self.target,self.output)
-        #
-        # self.process = capture(args)
+        ffmpegExec.args.output = self.output + ".mp4"
 
-        command = "ffmpeg -video_size 1920x1080 -framerate 25 -f x11grab -i :0.0 -s 1280x768 www/files/%s.mp4" %(self.output)
-        self.process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True, preexec_fn=os.setsid)
+        ffmpegExec.execute()
+        #command = "ffmpeg -video_size 1920x1080 -framerate 25 -f x11grab -i :0.0 -s 1280x768 www/files/%s.mp4" %(self.output)
+        #self.process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True, preexec_fn=os.setsid)
     #
 
     """
