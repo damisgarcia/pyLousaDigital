@@ -7,7 +7,7 @@ FFMPEG_EXEC = "ffmpeg"
 
 import gtk
 
-import lousadigital.so.client
+from lousadigital.so.client import *
 
 SCREEN_WIDTH =  1920
 SCREEN_HEIGHT = 1080
@@ -187,17 +187,18 @@ class FFMpegExecutor(object):
 
 	process = None
 	args = None
-	
+
 	def __init__(self, ffmpegArgs):
 		self.args = ffmpegArgs
-		
+
 	def execute(self):
-		process = subprocess.Popen(ffmpegArgs.commandLine, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
-		return process.wait()
+		
+		self.process = subprocess.Popen(self.args.commandLine, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+		return self.process.wait()
 
 	def stop(self):
-		if process != None:
-			process.send_signal(signal.CTRL_C_EVENT)		
+		if self.process != None:
+			self.process.send_signal(signal.SIGTERM)
 
 
 #-------------------------------------FACTORIES--------------------------------------------------------------------------
@@ -229,7 +230,7 @@ def gdiDesktop():
 	initialArgs = '-thread_queue_size 128'
 	args.bgDevice = "gdigrab"
 	args.bgInput = "desktop"
-	
+
 	return args
 
 
@@ -280,7 +281,7 @@ def x11Desktop():
 def video4linuxCamera(linuxDispositive):
 	args = FFMpegCaptureArgs()
 	args.bgDevice = "v4l2"
-	args.bgInput = linuxDispositive 
+	args.bgInput = linuxDispositive
 
 	return args
 
@@ -363,11 +364,11 @@ def createThumbnail(videoIn, thumbnailName):
 def captureAudioOnly(outputFile = "out.mp4", audioInput = "Microfone (USB Web-CAM       )"):
 
 	args = FFMpegArgs()
-	if client.isWindows():
+	if isWindows():
 		args.audioIn = dshowAudio(audioInput)
-		args.audioCodec = aac()	
+		args.audioCodec = aac()
 
-	elif client.isLinux():
+	elif isLinux():
 		args.audioIn = pulseAudio()
 		args.audioCodec = aac()
 
@@ -378,12 +379,12 @@ def captureAudioOnly(outputFile = "out.mp4", audioInput = "Microfone (USB Web-CA
 
 def captureWebcam(outputFile = "out.mp4", videoInput = "USB Web-CAM       ", audioInput = "Microfone (USB Web-CAM       )"):
 	args = FFMpegArgs()
-	if client.isWindows():
+	if isWindows():
 		args.videoIn = dshowCamera(videoInput)
 		args.audioIn = dshowAudio(audioInput)
-		args.audioCodec = aac()	
+		args.audioCodec = aac()
 
-	elif client.isLinux():
+	elif isLinux():
 		args.videoIn = video4linuxCamera(videoInput)
 		args.audioIn = pulseAudio()
 		args.audioCodec = aac()
@@ -395,12 +396,12 @@ def captureWebcam(outputFile = "out.mp4", videoInput = "USB Web-CAM       ", aud
 
 def captureDesktop(outputFile = "out.mp4", audioInput = "Microfone (USB Web-CAM       )"):
 	args = FFMpegArgs()
-	if client.isWindows():
+	if isWindows():
 		args.videoIn = gdiDesktop()
 		args.audioIn = dshowAudio(audioInput)
-		args.audioCodec = aac()	
+		args.audioCodec = aac()
 
-	elif client.isLinux():
+	elif isLinux():
 		args.videoIn = x11Desktop()
 		args.audioIn = pulseAudio()
 		args.audioCodec = aac()
@@ -412,12 +413,12 @@ def captureDesktop(outputFile = "out.mp4", audioInput = "Microfone (USB Web-CAM 
 
 def captureWebcamAndDesktop(outputFile = "out.mp4", videoInput = "USB Web-CAM       ", audioInput = "Microfone (USB Web-CAM       )"):
 	args = FFMpegArgs()
-	if client.isWindows():
+	if isWindows():
 		args.videoIn = gdiDesktopDShowCamera(videoInput)
 		args.audioIn = dshowAudio(audioInput)
-		args.audioCodec = aac()	
+		args.audioCodec = aac()
 
-	elif client.isLinux():
+	elif isLinux():
 		args.videoIn = x11DesktopLinuxCamera(videoInput)
 		args.audioIn = pulseAudio()
 		args.audioCodec = aac()
@@ -425,4 +426,3 @@ def captureWebcamAndDesktop(outputFile = "out.mp4", videoInput = "USB Web-CAM   
 	args.output = outputFile
 
 	return FFMpegExecutor(args)
-
