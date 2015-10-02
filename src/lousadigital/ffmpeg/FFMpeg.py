@@ -190,16 +190,13 @@ class FFMpegExecutor(object):
 	
 	def __init__(self, ffmpegArgs):
 		self.args = ffmpegArgs
-		#self.process = subprocess.Popen(ffmpegArgs.commandLine, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
-		#processCode = subprocess.Popen(ffmpegArgs.commandLine, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True, preexec_fn=os.setsid)
-		#call retorna 0 para sucesso, e != 0 para processos mal sucedidos. Inverte isso para entrar no esquema de true(se o processo acabou) e false(caso contrario)
-		#return processCode
+		
 	def execute(self):
 		process = subprocess.Popen(ffmpegArgs.commandLine, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
 		return process.wait()
 
 	def stop(self):
-		process.send_signal(signal.CTRL_C_EVENT)
+		process.send_signal(signal.CTRL_C_EVENT)		
 
 
 #-------------------------------------FACTORIES--------------------------------------------------------------------------

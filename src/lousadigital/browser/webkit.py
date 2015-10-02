@@ -6,11 +6,8 @@
 
 from lousadigital.so.client import *
 
-if isLinux():
-    from gi.repository import WebKit
 
-if isWindows():
-    import webkit as WebKit
+from gi.repository import WebKit
 
 class WebView:
     def __init__(self,port):

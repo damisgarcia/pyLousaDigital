@@ -10,15 +10,8 @@ import thread
 
 from lousadigital.so.client import *
 
-import pygtk
-pygtk.require("2.0")
-
-if isLinux():
-    from gi.repository import Gtk
-    from gi.repository import Gdk
-if isWindows():
-    import gtk as Gtk
-    from gtk import gdk as Gdk
+from gi.repository import Gtk
+from gi.repository import Gdk
 
 from lousadigital.httpservice.httpserver import HttpServer
 from lousadigital.browser.webkit import WebView
