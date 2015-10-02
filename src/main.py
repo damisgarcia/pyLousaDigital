@@ -19,12 +19,12 @@ from lousadigital.browser.webkit import WebView
 class RunTime(Gtk.VBox):
     version = "0.1.3"
 
-    def __init__(self):        
+    def __init__(self):
         # HttpServer
         self.server = HttpServer()
         self.server.start()
         # Import UI
-        self.gladefile = "../glade/browser.glade"
+        self.gladefile = "../glade/browser-gtk2.glade"
         self.glade = Gtk.Builder()
         self.glade.add_from_file(self.gladefile)
         self.glade.connect_signals(self)
