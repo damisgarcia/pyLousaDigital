@@ -26,8 +26,7 @@ from lousadigital.browser.webkit import WebView
 class RunTime(Gtk.VBox):
     version = "0.1.3"
 
-    def __init__(self):
-        print( "Gtk Version:%d" %(Gtk.get_major_version()) )
+    def __init__(self):        
         # HttpServer
         self.server = HttpServer()
         self.server.start()
