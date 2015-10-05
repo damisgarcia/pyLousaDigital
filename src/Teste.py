@@ -37,7 +37,11 @@ while input != 's':
 	input = raw_input("Aperte s para parar a gravacao")
 
 ffmpegExec.stop()
+	
+import time 
 
-#print ffmpeg.createThumbnail('out.mp4','thumbnail.png')
+print 'hue'
+time.sleep(10)
+print ffmpeg.createThumbnail('out.mp4','thumbnail.png')
 
 #print args

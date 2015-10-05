@@ -189,22 +189,30 @@ class FFMpegExecutor(object):
 
 	process = None
 	args = None
+	silent = False
 
-	def __init__(self, ffmpegArgs):
+	def __init__(self, ffmpegArgs,silent = False):
 		self.args = ffmpegArgs
+		self.silent = silent
 
 	def execute(self):
 		command = shlex.split(self.args.commandLine)		
-		self.process = subprocess.Popen(self.args.commandLine, creationflags = subprocess.CREATE_NEW_PROCESS_GROUP)
+		#self.process = subprocess.Popen(self.args.commandLine, creationflags = subprocess.CREATE_NEW_PROCESS_GROUP)
+		
+		if self.silent:
+			self.process = subprocess.Popen(command, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.STDOUT)
+		else:
+			self.process = subprocess.Popen(command,stdin=subprocess.PIPE)
+			
+
 		return self.process.wait()
 
-	def stop(self):
-		print "stop"
-		if self.process != None:
-			print "PID: %d" % (self.process.pid)
-			os.kill(self.process.pid, signal.SIGINT)
-			#self.process.send_signal(signal.CTRL_C_EVENT)
-			print "stopped"
+	def stop(self):		
+		if self.process != None:			
+			#enviar q para o ffmpeg fecha o processo
+			self.process.communicate(input = 'q')[0]
+			
+
 
 
 #-------------------------------------FACTORIES--------------------------------------------------------------------------
@@ -264,6 +272,8 @@ def x11DesktopLinuxCamera(linuxDispositive):
 	args = FFMpegCaptureArgs()
 	args.bgDevice = "x11grab"
 	args.bgInput = ":0.0+100,200" # a partir de que ponto comecar a capturar
+	args.bgWidth = SCREEN_WIDTH
+	args.bgHeight = SCREEN_HEIGHT
 
 	args.fgDevice = "v4l2"
 	args.fgInput = linuxDispositive
@@ -283,7 +293,9 @@ def x11Desktop():
 	args = FFMpegCaptureArgs()	
 	args.bgDevice = "x11grab"
 	args.bgInput = ":0.0+100,200" # a partir de que ponto comecar a capturar
-
+	args.bgWidth = SCREEN_WIDTH
+	args.bgHeight = SCREEN_HEIGHT
+	
 	return args
 
 
