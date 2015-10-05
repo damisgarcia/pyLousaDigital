@@ -5,7 +5,7 @@ FFMPEG_PATH = "ffmpeg-static/bin/"
 #FFMPEG_EXEC = FFMPEG_PATH+"ffmpeg"
 FFMPEG_EXEC = "ffmpeg"
 
-import gtk
+from gi.repository import Gtk as gtk
 
 from lousadigital.so.client import *
 
@@ -58,7 +58,7 @@ class FFMpegArgs(object):
 
 class FFMpegCaptureArgs(object):
 
-	initialArgs = ''#'-thread_queue_size 192'
+	initialArgs = ''
 	#nome do dispositivo do ffmpeg(-f arg) que ira capturar a imagem de fundo
 	bgDevice = "gdigrab"
 	#nome do dispositivo de input para a imagem de fundo
@@ -83,6 +83,7 @@ class FFMpegCaptureArgs(object):
 	@property
 	def commandLine(self):
 		command = ' %s -f %s'  % (self.initialArgs, self.bgDevice)
+		
 		if self.bgWidth != None and self.bgHeight != None:
 			command += ' -video_size %dX%d' % (self.bgWidth, self.bgHeight)
 
@@ -166,6 +167,7 @@ class FFMpegAudioCodecArgs(object):
 import os
 import subprocess
 import signal
+import shlex
 
 def capture(ffmpegArgs):
 	if os.path.isfile(ffmpegArgs.output):
@@ -192,13 +194,17 @@ class FFMpegExecutor(object):
 		self.args = ffmpegArgs
 
 	def execute(self):
-		
-		self.process = subprocess.Popen(self.args.commandLine, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+		command = shlex.split(self.args.commandLine)		
+		self.process = subprocess.Popen(self.args.commandLine, creationflags = subprocess.CREATE_NEW_PROCESS_GROUP)
 		return self.process.wait()
 
 	def stop(self):
+		print "stop"
 		if self.process != None:
-			self.process.send_signal(signal.SIGTERM)
+			print "PID: %d" % (self.process.pid)
+			os.kill(self.process.pid, signal.SIGINT)
+			#self.process.send_signal(signal.CTRL_C_EVENT)
+			print "stopped"
 
 
 #-------------------------------------FACTORIES--------------------------------------------------------------------------
@@ -208,7 +214,7 @@ class FFMpegExecutor(object):
 
 def gdiDesktopDShowCamera(dshowDispositive):
 	args = FFMpegCaptureArgs();
-	initialArgs = '-thread_queue_size 128'
+	args.initialArgs = '-thread_queue_size 128'
 	args.bgDevice = "gdigrab"
 	args.bgInput = "desktop"
 
@@ -227,7 +233,7 @@ def gdiDesktopDShowCamera(dshowDispositive):
 
 def gdiDesktop():
 	args = FFMpegCaptureArgs();
-	initialArgs = '-thread_queue_size 128'
+	args.initialArgs = '-thread_queue_size 128'
 	args.bgDevice = "gdigrab"
 	args.bgInput = "desktop"
 
@@ -236,7 +242,7 @@ def gdiDesktop():
 
 def dshowCamera(dshowDispositive):
 	args = FFMpegCaptureArgs();
-	#initialArgs = '-thread_queue_size 128'
+	args.initialArgs = '-thread_queue_size 128'
 	args.bgDevice = "dshow"
 	args.bgInput = "video=\""+dshowDispositive+"\""
 
@@ -245,6 +251,7 @@ def dshowCamera(dshowDispositive):
 
 def dshowAudio(dshowAudioInput):
 	args = FFMpegCaptureArgs();
+	args.initialArgs = '-rtbufsize 1500M -thread_queue_size 128'
 	args.bgDevice = "dshow";
 	args.bgInput = "audio=\""+dshowAudioInput+"\"";
 	args.bufferSize = 2048
@@ -261,6 +268,8 @@ def x11DesktopLinuxCamera(linuxDispositive):
 	args.fgDevice = "v4l2"
 	args.fgInput = linuxDispositive
 
+
+ 
 	args.fgWidth = 320
 	args.fgHeight = 240
 
@@ -271,7 +280,7 @@ def x11DesktopLinuxCamera(linuxDispositive):
 
 
 def x11Desktop():
-	args = FFMpegCaptureArgs()
+	args = FFMpegCaptureArgs()	
 	args.bgDevice = "x11grab"
 	args.bgInput = ":0.0+100,200" # a partir de que ponto comecar a capturar
 
@@ -396,7 +405,7 @@ def captureWebcam(outputFile = "out.mp4", videoInput = "USB Web-CAM       ", aud
 
 def captureDesktop(outputFile = "out.mp4", audioInput = "Microfone (USB Web-CAM       )"):
 	args = FFMpegArgs()
-	if isWindows():
+	if isWindows():		
 		args.videoIn = gdiDesktop()
 		args.audioIn = dshowAudio(audioInput)
 		args.audioCodec = aac()
