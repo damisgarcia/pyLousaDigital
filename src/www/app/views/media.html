@@ -10,10 +10,10 @@
         </div>
         <div class="uk-grid">
           <div class="uk-width-1-1">
-            <div class="uk-button-group uk-margin-large-bottom uk-margin-top tm-button-group">
-              <a class="uk-button uk-button-small" ng-click="update(thumb.name)"><i class="ion-ios-cloud-upload"></i></a>
-              <a class="uk-button uk-button-small" href="#!"><i class="ion-ios-compose-outline"></i></a>
-              <a class="uk-button uk-button-small" href="#!"><i class="ion-ios-trash"></i></a>
+            <div class="tm-button-group uk-margin-large-bottom">
+              <button class="uk-button tm-button uk-button-small"><i class="ion-ios-cloud-upload" title="Enviar Gravação"></i></button>
+              <button class="uk-button tm-button uk-button-small" ng-click="edit($index)" ><i class="ion-ios-compose-outline" title="Atualizar Informações"></i></button>
+              <button class="uk-button tm-button uk-button-small" ng-click="remove($index)" ><i class="ion-trash-b" title="Apagar Gravação"></i></button>
             </div>
           </div>
         </div>
@@ -21,7 +21,10 @@
     </div>
   </div>
 </div>
-
+{{ editer }}
 <div id="log" ng-repeat="l in $log">
   {{ l }}
 </div>
+
+<!-- Dialogs -->
+<dialog-edit-record></dialog-edit-record>

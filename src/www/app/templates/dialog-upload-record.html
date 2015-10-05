@@ -1,0 +1,18 @@
+<div class="tm-popup" ng-show="upload_dialog">
+  <div class="tm-overlayer" ng-click="upload_dialog = false"></div>
+  <!--  -->
+  <div class="tm-popup-container uk-block uk-block-secondary">
+    <a class="tm-close" ng-click="upload_dialog = false"><span class="ion-close"></span></a>
+    <h2 class="uk-margin-top uk-text-center">Modo de Captura</h2>
+    <div data-uk-button-radio class="tm-choise-mode uk-width-8-10 uk-container-center">
+        <button class="uk-button uk-button-large tm-button uk-margin-top uk-width-1-1" data-mode="1">Tela e Áudio</button>
+        <button class="uk-button uk-button-large tm-button uk-margin-top uk-width-1-1" data-mode="2">Webcam, Áudio</button>
+        <button class="uk-button uk-button-large tm-button uk-margin-top uk-width-1-1" data-mode="3">Tela, Áudio e Webcam</button>
+    </div>
+    <hr>
+    <div class="uk-margin-large-top uk-margin-large-bottom uk-margin-right">
+      <button class="uk-button uk-button-large uk-margin-right uk-float-right tm-button" ng-click="upload_dialog = false">Cancelar</button>
+      <button class="uk-button uk-button-danger uk-button-large uk-margin-right uk-float-right" ng-click="$capture()">Capturar</button>
+    </div>
+  </div>
+</div>

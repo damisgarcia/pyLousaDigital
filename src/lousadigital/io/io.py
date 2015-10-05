@@ -10,6 +10,8 @@ import os.path
 import glob
 import mimetypes
 
+import socket
+
 class FileManager:
     def __init__(self,path):
         self.path = path
@@ -48,3 +50,14 @@ class FileManager:
             return { "error":"não foi possível excluir este arquivo" }
     #
 #
+
+class Internet(object):
+    def is_connected(self):
+      try:
+        host = socket.gethostbyname("www.google.com.br")
+        s = socket.create_connection((host, 80), 2)
+        return 1
+      except Exception as e:
+         print(e)
+         pass
+      return 0

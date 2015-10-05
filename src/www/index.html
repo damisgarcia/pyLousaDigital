@@ -17,9 +17,6 @@
           <a ui-sref="media"><i class="ion-images"></i> Minhas Gravações</a>
         </li>
         <li class="uk-active" ui-sref-active="active">
-          <a ui-sref="lessons"><i class="ion-university"></i> Minhas Aulas</a>
-        </li>
-        <li class="uk-active" ui-sref-active="active">
           <a ui-sref="account"><i class="ion-person"></i> Acesso</a>
         </li>
         <li ui-sref-active="active">
@@ -30,36 +27,35 @@
 
     <div class="uk-width-1-1">
       <div class="uk-margin-large-top uk-margin-large-bottom tm-media-grid">
+        <div class="uk-alert uk-alert-warning uk-margin-large-bottom" data-uk-alert ng-hide="!!$connection.online">
+            <a href="" class="uk-alert-close uk-close"></a>
+            <p class="uk-text-center">
+              <small><i class="ion-alert-circled"></i> Falha ao se conectar com servidor. Por favor verifique se possui acesso a internet.</small>
+            </p>
+        </div>
         <div ui-view></div>
       </div>
     </div>
   </div>
 
   <nav class="tm-footer uk-grid">
-    <div class="uk-width-8-10 uk-push-1-10 uk-flex uk-flex-middle uk-flex-center">
-      <button class="uk-button uk-button-primary" ng-click="record_popup = true" ng-hide="$isRecording">Iniciar Nova Captura </button>
+    <div class="uk-width-1-10 uk-flex uk-flex-middle uk-flex-right">
+      <small class="uk-text-success" ng-show="!!$connection.online">Online</small>
+      <small class="uk-text-danger" ng-hide="!!$connection.online">Offline</small>
+    </div>
+
+    <div class="uk-width-8-10 uk-flex uk-flex-middle uk-flex-center">
+      <button class="uk-button uk-button-primary" ng-click="$start_dialog = true" ng-hide="$isRecording">Iniciar Nova Captura </button>
       <button class="uk-button uk-button-danger" ng-show="$isRecording" ng-click="$stop()">Finalizar Captura</button>
     </div>
 
-    <div class="uk-width-2-10 uk-flex uk-flex-middle uk-flex-right tm-right-action">
+    <div class="uk-width-1-10 uk-flex uk-flex-middle uk-flex-right tm-right-action">
       <a class="uk-button-link uk-pull-right" data-uk-tooltip="{pos:'top'}" title="Calibrar"> <i class="ion-qr-scanner"></i> </a>
-      <a class="uk-button-link uk-pull-right" data-uk-tooltip="{pos:'top'}" title="Calibrar"> <i class="ion-record" ng-show="$isRecording" style="color:red;"></i> </a>
+      <a class="uk-button-link uk-pull-right" data-uk-tooltip="{pos:'top'}"> <i class="ion-record" ng-show="$isRecording" style="color:red;"></i> </a>
     </div>
   </nav>
 
-  <div class="tm-popup" ng-show="record_popup">
-    <div class="tm-overlayer"></div>
-    <!--  -->
-    <div class="tm-popup-container">
-      <a class="tm-close" ng-click="record_popup = false"><span class="ion-close"></span></a>
-      <ul class="uk-nav">
-        <li class="uk-nav-header">Modo de Gravação</li>
-        <li><a href="" ng-click="$capture()">Tela e Áudio</a></li>
-        <li><a href="" ng-click="$capture()">Webcam, Áudio</a></li>
-        <li><a href="" ng-click="$capture()">Tela, Áudio e Webcam</a></li>
-      </ul>
-    </div>
-  </div>
+  <dialog-start-record></dialog-start-record>
 
   <!-- vendor.js -->
   <script src="app/bower_components/jquery/dist/jquery.min.js"></script>

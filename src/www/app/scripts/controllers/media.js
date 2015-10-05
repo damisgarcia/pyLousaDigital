@@ -26,10 +26,47 @@ angular.module('pyLousaDigitalApp')
       })
     })
 
-    $scope.update = function(targets){
-      $http.get("/capture/update",{test:"Hello"}).success(function(data){
-        console.log(data)
+    $scope.edit = function(index){
+      $scope.edit_dialog = true
+      $scope.$obj = $scope.repository.thumbnails[index]
+      $scope.$obj.$id = index
+      $scope.$obj.new_name = $scope.$obj.name      
+    }
+
+    $scope.update = function(index){
+      var obj = $scope.repository.thumbnails[index]
+      var params = "old="+obj.name+"&new="+obj.new_name
+      var url = "/capture/update?"+params
+      $http.get(url).success(function(data){
+        $scope.edit_dialog = false
+        obj.name = obj.new_name
       })
     }
 
-  });
+    $scope.remove = function(index){
+      var obj = $scope.repository.thumbnails[index]
+      var params = "id="+index
+      var url = "/capture/destroy?"+params
+      if(confirm("Deseja realmente apagar este arquivo?")){
+        $http.get(url).success(function(data){
+          $scope.repository.thumbnails.splice(index,1)
+          $scope.repository.media.splice(index,1)
+        })
+      }
+    }
+
+  })
+
+  .directive('dialogEditRecord',function(){
+    return {
+      restrict: "E",
+      templateUrl:"app/templates/dialog-edit-record.html"
+    }
+  })
+
+  .directive('dialogUploadRecord',function(){
+    return {
+      restrict: "E",
+      templateUrl:"app/templates/dialog-upload-record.html"
+    }
+  })

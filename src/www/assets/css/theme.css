@@ -134,13 +134,29 @@ h1,h2,h3,h4{
 /* THUMB */
 .tm-thumb .title{
   text-align: center;
-  font-size:0.6rem;
+  font-size:0.7rem;
 }
 
 
 /*BUTTONS*/
+.tm-button-group{
+  float:right;
+  margin-top: 0.3rem;
+}
 .tm-button-group .uk-button{
-  font-size:1.4rem;
+  color:#aaa;
+  font-size:1.2rem;
+}
+
+.tm-button{
+  background-color: #333;
+  color:#ddd;
+  border-color:#111;
+}
+
+.tm-button:hover{
+  background-color: #555;
+  color:#eee;
 }
 
 
@@ -167,7 +183,11 @@ h1,h2,h3,h4{
   right:15px;
   z-index: 90;
   font-size:1.6rem;
-  color:#efefef;
+  color:#ccc;
+}
+
+.tm-popup .tm-close:hover{
+  color:#eee;
 }
 
 .tm-popup .tm-popup-container{
@@ -176,6 +196,15 @@ h1,h2,h3,h4{
   top: 0; left: 0; bottom: 0; right: 0;
   width:600px;
   height:400px;
-  background-color:#222;
   z-index:100;
+}
+
+.tm-popup-container .tm-choise-mode .uk-button.uk-active{
+  background-color: #d32c46;
+  color:white;
+}
+
+.tm-popup-container hr{
+  border-color: #333 !important;
+  margin:1rem 1.5rem;
 }

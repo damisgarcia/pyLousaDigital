@@ -40,12 +40,27 @@ angular.module('pyLousaDigitalApp',['ui.router'])
       })
     })
 
-    .run(function($rootScope,$http,$state){
+    .directive('dialogStartRecord',function(){
+      return {
+        restrict: "E",
+        templateUrl:"app/templates/dialog-start-record.html"
+      }
+    })
+
+    .run(function($rootScope,$http,$state,$interval){
       $rootScope.$log = []
       $rootScope.$isRecording = false
 
       $rootScope.$capture = function(){
-        $http.get("/capture/new").success(function(data){
+        var mode = $('.tm-choise-mode .uk-button.uk-active').attr("data-mode")
+        var url = "/capture/new?mode=" + mode
+
+        if(mode == null || mode == undefined){
+          alert("Por favor selecione um modo de captura")
+          return false
+        }
+
+        $http.get(url).success(function(data){
           $rootScope.$isRecording = true
           $rootScope.$log.push(data)
         })
@@ -58,4 +73,14 @@ angular.module('pyLousaDigitalApp',['ui.router'])
           $state.go($state.current, {reload: true}); // Reload View
         })
       }
+
+      // Observers
+      function isOnline(){
+        $http.get("/connection").success(function(data){
+          $rootScope.$connection = data
+        })
+      }
+
+      isOnline()
+      $interval(isOnline,5000)
     })

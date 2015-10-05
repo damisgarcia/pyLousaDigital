@@ -40,7 +40,7 @@ class Basic(Thread):
         #command = "ffmpeg -video_size 1920x1080 -framerate 20 -f x11grab -i :0.0 -s 1280x768 www/files/%s.mp4" %(self.output)
         #self.process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True, preexec_fn=os.setsid)
 
-    
+
 
     """
         Captura um específico frame da aula recém capturada
