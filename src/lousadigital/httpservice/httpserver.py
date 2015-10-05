@@ -37,8 +37,8 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.wfile.write('{"success":"Recording" }')
             return
         elif self.path=='/capture/save':
-            # self.queue_recordings[-1].ffmpegExec.stop()
-            os.killpg(self.queue_recordings[-1].process.pid, signal.SIGTERM)
+            self.queue_recordings[-1].ffmpegExec.stop()
+            #os.killpg(self.queue_recordings[-1].process.pid, signal.SIGTERM)
             self.queue_recordings[-1].createThumbnail()
 
             self.setHeader()
