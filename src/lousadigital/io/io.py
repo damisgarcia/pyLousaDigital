@@ -18,7 +18,7 @@ class FileManager:
     def getFiles(self):
         p = "%s/*" % self.path
         files = []
-        for filepath in sorted(glob.glob(p)):
+        for filepath in sorted(glob.glob(p),reverse=True):
             f = open(filepath)
             fst = os.stat(filepath)
 

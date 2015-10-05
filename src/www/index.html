@@ -28,8 +28,8 @@
       </ul>
     </nav>
 
-    <div class="uk-width-7-10">
-      <div class="uk-margin-large-top uk-margin-large-bottom">
+    <div class="uk-width-1-1">
+      <div class="uk-margin-large-top uk-margin-large-bottom tm-media-grid">
         <div ui-view></div>
       </div>
     </div>
@@ -37,20 +37,7 @@
 
   <nav class="tm-footer uk-grid">
     <div class="uk-width-8-10 uk-push-1-10 uk-flex uk-flex-middle uk-flex-center">
-      <div class="uk-button-dropdown" data-uk-dropdown="{mode:'click'}">
-        <!-- This is the element toggling the dropdown -->
-        <button class="uk-button uk-button-primary" ng-hide="$isRecording">Iniciar Nova Captura </button>
-        <!-- <a class="uk-button-link" data-uk-tooltip="{pos:'top'}" title="Switch to Webcam"> <i class="ion-ios-videocam"></i> </a> -->
-        <!-- This is the dropdown -->
-        <div class="uk-dropdown uk-dropdown-small uk-dropdown-flip uk-dropdown-up" ng-hide="$isRecording">
-            <ul class="uk-nav uk-nav-dropdown">
-                <li class="uk-nav-header">Modo de Gravação</li>
-                <li><a href="" ng-click="$capture()">Tela e Áudio</a></li>
-                <li><a href="" ng-click="$capture()">Webcam, Áudio</a></li>
-                <li><a href="" ng-click="$capture()">Tela, Áudio e Webcam</a></li>
-            </ul>
-        </div>
-      </div>
+      <button class="uk-button uk-button-primary" ng-click="record_popup = true" ng-hide="$isRecording">Iniciar Nova Captura </button>
       <button class="uk-button uk-button-danger" ng-show="$isRecording" ng-click="$stop()">Finalizar Captura</button>
     </div>
 
@@ -59,6 +46,20 @@
       <a class="uk-button-link uk-pull-right" data-uk-tooltip="{pos:'top'}" title="Calibrar"> <i class="ion-record" ng-show="$isRecording" style="color:red;"></i> </a>
     </div>
   </nav>
+
+  <div class="tm-popup" ng-show="record_popup">
+    <div class="tm-overlayer"></div>
+    <!--  -->
+    <div class="tm-popup-container">
+      <a class="tm-close" ng-click="record_popup = false"><span class="ion-close"></span></a>
+      <ul class="uk-nav">
+        <li class="uk-nav-header">Modo de Gravação</li>
+        <li><a href="" ng-click="$capture()">Tela e Áudio</a></li>
+        <li><a href="" ng-click="$capture()">Webcam, Áudio</a></li>
+        <li><a href="" ng-click="$capture()">Tela, Áudio e Webcam</a></li>
+      </ul>
+    </div>
+  </div>
 
   <!-- vendor.js -->
   <script src="app/bower_components/jquery/dist/jquery.min.js"></script>

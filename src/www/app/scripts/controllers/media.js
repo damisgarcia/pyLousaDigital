@@ -25,4 +25,11 @@ angular.module('pyLousaDigitalApp')
         ele.extension == "jpg" ? $scope.repository.thumbnails.push(ele) : $scope.repository.media.push(ele)
       })
     })
+
+    $scope.update = function(targets){
+      $http.get("/capture/update",{test:"Hello"}).success(function(data){
+        console.log(data)
+      })
+    }
+
   });
