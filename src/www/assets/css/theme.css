@@ -142,3 +142,40 @@ h1,h2,h3,h4{
 .tm-button-group .uk-button{
   font-size:1.4rem;
 }
+
+
+/* Popups */
+.tm-popup{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  overflow: hidden;
+}
+
+.tm-popup .tm-overlayer{
+  position: absolute;
+  background-color: rgba(0,0,0,0.9);
+  width:100%;
+  height:100%;
+  z-index: 50;
+}
+.tm-popup .tm-close{
+  position: absolute;
+  top:15px;
+  right:15px;
+  z-index: 90;
+  font-size:1.6rem;
+  color:#efefef;
+}
+
+.tm-popup .tm-popup-container{
+  margin: 4rem auto;
+  position: relative;
+  top: 0; left: 0; bottom: 0; right: 0;
+  width:600px;
+  height:400px;
+  background-color:#222;
+  z-index:100;
+}
