@@ -1,7 +1,7 @@
 <div ng-show="state.includes('media.detail')" ui-view class="tm-media"></div>
 
 <div ng-show="!state.includes('media.detail')">
-  <div class="tm-media-grid" ng-show="repository.thumbnails.length > 0">
+  <div ng-show="repository.thumbnails.length > 0">
     <div class="uk-grid">
       <div class="uk-width-1-3 tm-thumb uk-text-center" ng-repeat="thumb in repository.thumbnails">
         <small class="title">{{thumb.name}}</small>
@@ -9,12 +9,11 @@
           <a ui-sref=".detail({id:$index})"><img src="{{thumb.path}}"/></a>
         </div>
         <div class="uk-grid">
-          <div class="uk-width-3-5">&nbsp;</div>
-          <div class="uk-width-2-5">
-            <div class="uk-button-group">
-              <a class="uk-button" href="#!"><i class="ion-ios-cloud-upload"></i></a>
-              <a class="uk-button" href="#!"><i class="ion-ios-compose-outline"></i></a>
-              <a class="uk-button" href="#!"><i class="ion-ios-trash"></i></a>              
+          <div class="uk-width-1-1">
+            <div class="uk-button-group uk-margin-large-bottom uk-margin-top tm-button-group">
+              <a class="uk-button uk-button-small" ng-click="update(thumb.name)"><i class="ion-ios-cloud-upload"></i></a>
+              <a class="uk-button uk-button-small" href="#!"><i class="ion-ios-compose-outline"></i></a>
+              <a class="uk-button uk-button-small" href="#!"><i class="ion-ios-trash"></i></a>
             </div>
           </div>
         </div>

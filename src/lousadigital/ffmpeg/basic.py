@@ -28,11 +28,11 @@ class Basic(Thread):
         dt = datetime.now()
         self.output = dt.strftime("%d-%B-%Y_%I:%M:%S")
 
-        self.ffmpegExec.args.output = self.target + self.output + ".mp4"
-        self.ffmpegExec.args.videoIn.fgDevice = '/dev/video0'
-        self.ffmpegExec.execute()
-        #command = "ffmpeg -video_size 1920x1080 -framerate 25 -f x11grab -i :0.0 -s 1280x768 www/files/%s.mp4" %(self.output)
-        #self.process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True, preexec_fn=os.setsid)
+        # self.ffmpegExec.args.output = self.target + self.output + ".mp4"
+        # self.ffmpegExec.args.videoIn.fgDevice = '/dev/video0'
+        # self.ffmpegExec.execute()
+        command = "ffmpeg -video_size 1920x1080 -framerate 20 -f x11grab -i :0.0 -s 1280x768 www/files/%s.mp4" %(self.output)
+        self.process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True, preexec_fn=os.setsid)
     #
 
     """

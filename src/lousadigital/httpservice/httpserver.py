@@ -33,31 +33,37 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         if self.path=='/capture/new':
             self.queue_recordings.append(Basic(ffmpeg.captureWebcamAndDesktop()))
             self.queue_recordings[-1].start()
-
-            self.send_response(200)
-            self.send_header('Content-type','application/json')
-            self.end_headers()
+            self.setHeader()
             self.wfile.write('{"success":"Recording" }')
             return
         elif self.path=='/capture/save':
-            self.queue_recordings[-1].ffmpegExec.stop()            
+            # self.queue_recordings[-1].ffmpegExec.stop()
+            os.killpg(self.queue_recordings[-1].process.pid, signal.SIGTERM)
             self.queue_recordings[-1].createThumbnail()
 
-            self.send_response(200)
-            self.send_header('Content-type','application/json')
-            self.end_headers()
+            self.setHeader()
+
+            self.wfile.write('{"success":"Is Stoped" }')
+            return
+        elif self.path=='/capture/update':
+            print( self.headers )
+            self.setHeader()
             self.wfile.write('{"success":"Is Stoped" }')
             return
         elif self.path=='/repository/list':
-            self.send_response(200)
-            self.send_header('Content-type','application/json')
-            self.end_headers()
+            self.setHeader()
             body = json.dumps({'recorders': FileManager("www/files").getFiles() })
             self.wfile.write(body)
             return
         else:
             SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)
         #
+    #...
+
+    def setHeader(self):
+        self.send_response(200)
+        self.send_header('Content-type','application/json')
+        self.end_headers()
     #...
 #...
 
