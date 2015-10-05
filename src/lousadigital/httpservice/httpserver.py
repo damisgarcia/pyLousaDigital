@@ -31,6 +31,7 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
     def do_GET(self):
         if self.path=='/capture/new':
+            #TODO: passar dispositivo de camera e microfone p/ captureWebcamAndDesktop
             self.queue_recordings.append(Basic(ffmpeg.captureWebcamAndDesktop()))
             self.queue_recordings[-1].start()
             self.setHeader()

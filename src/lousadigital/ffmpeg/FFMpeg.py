@@ -272,6 +272,8 @@ def x11DesktopLinuxCamera(linuxDispositive):
 	args = FFMpegCaptureArgs()
 	args.bgDevice = "x11grab"
 	args.bgInput = ":0.0+100,200" # a partir de que ponto comecar a capturar
+	args.bgWidth = SCREEN_WIDTH
+	args.bgHeight = SCREEN_HEIGHT
 
 	args.fgDevice = "v4l2"
 	args.fgInput = linuxDispositive
@@ -291,7 +293,9 @@ def x11Desktop():
 	args = FFMpegCaptureArgs()	
 	args.bgDevice = "x11grab"
 	args.bgInput = ":0.0+100,200" # a partir de que ponto comecar a capturar
-
+	args.bgWidth = SCREEN_WIDTH
+	args.bgHeight = SCREEN_HEIGHT
+	
 	return args
 
 
