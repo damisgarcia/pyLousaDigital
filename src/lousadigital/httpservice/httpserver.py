@@ -37,7 +37,6 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
     """
 
     def do_GET(self):
-<<<<<<< HEAD
         print(self.path)
         try:
             result = self.uri_compiler.match(self.path)
@@ -52,25 +51,24 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             print( self.params['mode'] )
             basic = Basic(ffmpeg.captureWebcamAndDesktop())
             self.queue_recordings.append(basic)
-=======
+            return
+
         if self.path=='/capture/new':
             #TODO: passar dispositivo de camera e microfone p/ captureWebcamAndDesktop
             self.queue_recordings.append(Basic(ffmpeg.captureWebcamAndDesktop()))
->>>>>>> 1036be0ced1d74d52ab3aa29dc474816c80baae7
             self.queue_recordings[-1].start()
             self.setHeader()
             self.wfile.write('{"success":"Recording" }')
             return
-<<<<<<< HEAD
 
         elif self.path == '/capture/save':
             self.queue_recordings[-1].ffmpegExec.stop()
             os.killpg(self.queue_recordings[-1].process.pid, signal.SIGTERM)
-=======
+            return
+
         elif self.path=='/capture/save':
             self.queue_recordings[-1].ffmpegExec.stop()
             #os.killpg(self.queue_recordings[-1].process.pid, signal.SIGTERM)
->>>>>>> 1036be0ced1d74d52ab3aa29dc474816c80baae7
             self.queue_recordings[-1].createThumbnail()
             self.setHeader()
             self.wfile.write('{"success":"Is Stoped" }')
