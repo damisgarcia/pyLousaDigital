@@ -34,10 +34,10 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
     """
         @description: 'Toda requisição GET é passada por esse método.'
+        @params: mode => ['1'=> 'Tela e Áudio','2' => 'Webcam, Áudio','3'=> 'Tela, Áudio e Webcam']
     """
 
     def do_GET(self):
-        print(self.path)
         try:
             result = self.uri_compiler.match(self.path)
             self.path = result.group(1)
