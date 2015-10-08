@@ -55,3 +55,4 @@ target/
 
 # Recorders
 src/www/files
+src/.db/.credential

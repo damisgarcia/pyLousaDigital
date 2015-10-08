@@ -208,3 +208,17 @@ h1,h2,h3,h4{
   border-color: #333 !important;
   margin:1rem 1.5rem;
 }
+
+/*Tables*/
+.tm-table tbody tr{
+  border-color:#444;
+  background-color:#222;
+}
+
+.tm-table tbody tr:nth-of-type(odd){
+  background-color:#333;
+}
+
+.tm-table tbody tr:hover, .tm-table tbody tr:nth-of-type(odd):hover{
+  background-color:#666;
+}

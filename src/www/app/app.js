@@ -31,7 +31,8 @@ angular.module('pyLousaDigitalApp',['ui.router'])
 
       .state('account', {
         url: "/account",
-        templateUrl: "app/views/account.html"
+        templateUrl: "app/views/account.html",
+        controller: "AccountCtrl as account"
       })
 
       .state('settings', {
@@ -48,6 +49,7 @@ angular.module('pyLousaDigitalApp',['ui.router'])
     })
 
     .run(function($rootScope,$http,$state,$interval){
+      $rootScope.$token = false
       $rootScope.$log = []
       $rootScope.$isRecording = false
 
@@ -73,6 +75,12 @@ angular.module('pyLousaDigitalApp',['ui.router'])
           $state.go($state.current, {reload: true}); // Reload View
         })
       }
+
+      // Get Auth Token
+      $http.get("/auth/token/get").success(function(data){
+        $rootScope.$token = data.token
+        $rootScope.$profile = data.profile
+      })
 
       // Observers
       function isOnline(){

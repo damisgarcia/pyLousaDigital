@@ -9,6 +9,7 @@ import random
 
 import json
 import re
+import urllib2
 
 import SimpleHTTPServer
 import SocketServer
@@ -17,6 +18,7 @@ import os, signal, subprocess
 
 from lousadigital.io.io import FileManager
 from lousadigital.io.io import Internet
+from lousadigital.io.io import Authorization
 from lousadigital.ffmpeg.basic import Basic
 import lousadigital.ffmpeg.FFMpeg as ffmpeg
 
@@ -27,6 +29,8 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
     uri_compiler = re.compile("^([/\w0-9]+)\?([\w\0-9\S]+)")
 
     def __init__(self,request, client_address, server, fake=False):
+        self.auth = Authorization()
+
         if fake == False:
             SimpleHTTPServer.SimpleHTTPRequestHandler.__init__(self, request, client_address, server)
         pass
@@ -45,19 +49,47 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             pass
         except Exception as e:
             pass
+        if self.path == "/auth/singin":
+            self.params["grant_type"] = "password"
+            res = self.auth.save(self.params)
 
+            if res["code"] is 1:
+                self.setHeader(200)
+                self.wfile.write(json.dumps(res))
+            else:
+                self.setHeader(403)
+                self.wfile.write(json.dumps(res))
+            return
 
-        if self.path == '/capture/new':
-            print( self.params['mode'] )
-            basic = Basic(ffmpeg.captureWebcamAndDesktop())
-            self.queue_recordings.append(basic)
+        if self.path == '/auth/token/get':
+            res = self.auth.token()
+            if res["code"] is 1:
+                self.setHeader(200)
+                body = json.dumps(res)
+                self.wfile.write(body)
+            else:
+                self.setHeader(403)
+                body = json.dumps(res)
+                self.wfile.write(body)
+            return
+
+        if self.path == '/auth/token/destroy':
+            is_destroyed = self.auth.destroy_token()
+            if is_destroyed is 1:
+                self.setHeader(200)
+                body = '{"success":true}'
+                self.wfile.write(body)
+            else:
+                self.setHeader(403)
+                body = json.dumps(is_destroyed)
+                self.wfile.write(body)
             return
 
         if self.path=='/capture/new':
             #TODO: passar dispositivo de camera e microfone p/ captureWebcamAndDesktop
             self.queue_recordings.append(Basic(ffmpeg.captureWebcamAndDesktop()))
             self.queue_recordings[-1].start()
-            self.setHeader()
+            self.setHeader(200)
             self.wfile.write('{"success":"Recording" }')
             return
 
@@ -70,28 +102,28 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.queue_recordings[-1].ffmpegExec.stop()
             #os.killpg(self.queue_recordings[-1].process.pid, signal.SIGTERM)
             self.queue_recordings[-1].createThumbnail()
-            self.setHeader()
+            self.setHeader(200)
             self.wfile.write('{"success":"Is Stoped" }')
             return
 
         elif self.path == '/capture/update':
-            self.setHeader()
+            self.setHeader(200)
             self.wfile.write('{"success":"Is Stoped" }')
             return
 
         elif self.path == '/capture/destroy':
-            self.setHeader()
+            self.setHeader(200)
             self.wfile.write('{"success":"Is Stoped" }')
             return
 
         elif self.path == '/repository/list':
-            self.setHeader()
+            self.setHeader(200)
             body = json.dumps({'recorders': FileManager("www/files").getFiles() })
             self.wfile.write(body)
             return
         elif self.path == '/connection':
             isConnected = Internet().is_connected()
-            self.setHeader()
+            self.setHeader(200)
             self.wfile.write( '{"online":%d}'%isConnected )
 
         else:
@@ -104,8 +136,8 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         @void
     """
 
-    def setHeader(self):
-        self.send_response(200)
+    def setHeader(self,code):
+        self.send_response(code)
         self.send_header('Content-type','application/json')
         self.end_headers()
     #...
