@@ -34,12 +34,7 @@
             </p>
         </div>
 
-        <div class="uk-alert uk-alert-danger uk-margin-large-bottom" data-uk-alert ng-show="$fails">
-            <a href="" class="uk-alert-close uk-close"></a>
-            <p class="uk-text-center">
-              <small><i class="ion-alert-circled"></i>{{ $fails }}</small>
-            </p>
-        </div>
+        <flash:messages></flash:messages>        
 
         <div ui-view></div>
       </div>
@@ -70,6 +65,7 @@
   <script src="app/bower_components/uikit/js/uikit.min.js"></script>
   <script src="app/bower_components/angular/angular.min.js"></script>
   <script src="app/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+  <script src="app/bower_components/angular-flash/angular-flash.js"></script>
   <!-- end vendor.js -->
   <!-- application -->
   <script src="app/app.js"></script>

@@ -7,7 +7,7 @@
  * @description
  * # pyLousaDigitalApp
  */
-angular.module('pyLousaDigitalApp',['ui.router'])
+angular.module('pyLousaDigitalApp',['ui.router','flash'])
   .config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/");
 

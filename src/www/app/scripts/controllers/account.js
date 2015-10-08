@@ -8,10 +8,17 @@
  * Controller of the pyLousaDigitalApp
  */
 angular.module('pyLousaDigitalApp')
-  .controller('AccountCtrl', function ($rootScope,$scope,$http) {
+  .controller('AccountCtrl', function ($rootScope,$scope,$http,flash) {
     var self = this
 
     this.singin = function() {
+      self.email ? self.not_valid_email = false : self.not_valid_email = true
+      self.password ? self.not_valid_password = false : self.not_valid_password = true      
+
+      if(self.email.length == 0 || self.password.length == 0){
+        return false
+      }
+
       var url = "/auth/singin"
       var params = "?email="+this.email+"&password="+this.password
       url += params
@@ -36,15 +43,16 @@ angular.module('pyLousaDigitalApp')
     function onSuccessSingin(data){
       $rootScope.$profile = data.profile
       $rootScope.$token = data.access_token
-      $rootScope.$fails = data
+      flash('success',"Login efetuado com sucesso")
     }
 
     function onSuccessDestroy(data){
       $rootScope.$token = null
       $rootScope.$profile = null
+      flash('warning',"Sessão Finalizada")
     }
 
     function onFail(error){
-      $rootScope.$fails = error
+      flash('danger',(error.message || "Não foi possível efetuar login, origem do erro é desconhecida"))
     }
   });

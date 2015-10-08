@@ -129,7 +129,7 @@ class Authorization(object):
             self.instance.getToken()
             return 1
         except Exception as e:
-            return { "code":0, "exception": e }
+            return { "code":0, "exception": e.message }
     #...
 
 
