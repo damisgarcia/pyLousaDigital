@@ -70,7 +70,7 @@ class Internet(object):
 class Authorization(object):
     class __Authorization:
         credential = ".db/.credential"
-        server = "http://10.40.0.32"
+        server = "http://10.0.40.32"
 
         def __init__(self):
             self.getToken()
@@ -134,7 +134,7 @@ class Authorization(object):
 
 
     def __login(self,params):
-        url = '%s/oauth/token' %(self.server)
+        url = '%s/oauth/token' %(self.instance.server)
         req = urllib2.Request(url)
         req.add_header('Content-Type', 'application/json')
         response = urllib2.urlopen(req, json.dumps(params))
@@ -143,7 +143,7 @@ class Authorization(object):
     #...
 
     def __profile(self,token):
-        url = "%s/api/v1/users/profile?access_token=%s" %(self.server,token)
+        url = "%s/api/v1/users/profile?access_token=%s" %(self.instance.server,token)
         req = urllib2.Request(url)
         req.add_header('Content-Type', 'application/json')
         response = urllib2.urlopen(req)

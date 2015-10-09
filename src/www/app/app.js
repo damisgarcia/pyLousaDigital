@@ -48,10 +48,10 @@ angular.module('pyLousaDigitalApp',['ui.router','flash'])
       }
     })
 
-    .run(function($rootScope,$http,$state,$interval){
+    .run(function($rootScope,$templateCache,$http,$state,$interval){
       $rootScope.$token = false
       $rootScope.$log = []
-      $rootScope.$isRecording = false
+      $rootScope.$isRecording = false      
 
       $rootScope.$capture = function(){
         var mode = $('.tm-choise-mode .uk-button.uk-active').attr("data-mode")
@@ -83,6 +83,16 @@ angular.module('pyLousaDigitalApp',['ui.router','flash'])
       })
 
       // Observers
+      // $rootScope.$on('$viewContentLoaded', function() {
+      //   $templateCache.removeAll() // clear cache
+      //  })
+      //
+      //  $rootScope.$on('$routeChangeStart', function(event, next, current) {
+      //     if (typeof(current) !== 'undefined'){
+      //       $templateCache.remove(current.templateUrl);
+      //     }
+      //   })
+
       function isOnline(){
         $http.get("/connection").success(function(data){
           $rootScope.$connection = data

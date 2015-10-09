@@ -1,0 +1,32 @@
+<!doctype html>
+<html ng-app="pyLousaDigitalApp">
+  <head>
+    <meta charset="utf-8"/>
+    <!-- vendor.css -->
+    <link rel="stylesheet" href="app/bower_components/uikit/css/uikit.almost-flat.min.css"/>
+    <link rel="stylesheet" href="app/bower_components/Ionicons/css/ionicons.min.css"/>
+    <link rel="stylesheet" href="app/bower_components/video.js/dist/video-js.css"/>
+    <!-- end vendor.css -->
+    <link rel="stylesheet" href="assets/css/theme.css"/>
+    <link rel="stylesheet" href="assets/css/videojs-theme.css"/>
+  </head>
+  <body ng-controller="MediaDetailCtrl">
+    <div class="uk-width-8-10 uk-container-center uk-margin-top tm-media">
+      <div class="uk-clearfix">
+        <a class="uk-alert-close uk-close uk-float-right" href="index.html"></a>
+      </div>
+      <div class="uk-cover" id="video-wrap">
+        <video id="player" class="video-js vjs-default-skin" width="640px" height="267px" controls preload="none"
+               data-setup='{ "aspectRatio":"1280:720", "playbackRates": [1, 1.5, 2] }'>
+        </video>
+      </div>
+    </div>
+    <!-- vendor.js -->
+    <script src="app/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="app/bower_components/uikit/js/uikit.min.js"></script>
+    <script src="app/bower_components/angular/angular.min.js"></script>
+    <script src="app/bower_components/video.js/dist/video.js"></script>
+    <!-- end vendor.js -->
+    <script src="app/scripts/controllers/media-detail.js"></script>
+  </body>
+</html>

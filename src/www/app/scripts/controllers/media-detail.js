@@ -7,9 +7,10 @@
  * # MediaDetailCtrl
  * Controller of the pyLousaDigitalApp
  */
-angular.module('pyLousaDigitalApp')
-  .controller('MediaDetailCtrl', function ($scope, $stateParams) {
-    $scope.media = { id: $stateParams.id }
-    $scope.media.video = $scope.repository.media[$stateParams.id]
-    $scope.media.thumbnail = $scope.repository.thumbnails[$stateParams.id]
+angular.module('pyLousaDigitalApp',[])
+  .controller('MediaDetailCtrl', function ($scope,$location) {
+    this.media = $location.search()
+    var video = document.getElementById('player')
+    video.poster = this.media.thumbnail
+    video.src = this.media.url    
   });

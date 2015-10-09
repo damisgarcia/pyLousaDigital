@@ -3,7 +3,7 @@
   <button ng-show="$token" class="uk-button uk-button-small uk-float-right uk-button-danger" ng-click="account.destroy()">Logout</button>
 </h2>
 
-<form class="uk-form" ng-hide="$token" ng-submit="account.singin()">
+<form id="singin" class="uk-form" ng-hide="$token" ng-submit="account.singin()">
     <fieldset data-uk-margin>
         <div class="uk-form-row">
           <input type="text" placeholder="Email" ng-model="account.email" class="uk-width-1-1" ng-class="{'uk-form-danger':account.not_valid_email}">
