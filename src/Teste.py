@@ -13,8 +13,8 @@ args = ffmpeg.FFMpegArgs()
 
 
 #Linux
-#args.videoIn = ffmpeg.x11DesktopLinuxCamera('/dev/video0')
-#args.audioIn = ffmpeg.pulseAudio()
+# args.videoIn = ffmpeg.x11DesktopLinuxCamera('/dev/video0')
+# args.audioIn = ffmpeg.pulseAudio()
 
 #Windows
 args.videoIn = ffmpeg.gdiDesktopDShowCamera(camera)
@@ -37,8 +37,8 @@ while input != 's':
 	input = raw_input("Aperte s para parar a gravacao")
 
 ffmpegExec.stop()
-	
-import time 
+
+import time
 
 print 'hue'
 time.sleep(10)

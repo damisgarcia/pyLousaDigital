@@ -5,12 +5,14 @@ FFMPEG_PATH = "ffmpeg-static/bin/"
 #FFMPEG_EXEC = FFMPEG_PATH+"ffmpeg"
 FFMPEG_EXEC = "ffmpeg"
 
-from gi.repository import Gtk as gtk
+from gi.repository import Gdk
 
 from lousadigital.so.client import *
 
-SCREEN_WIDTH =  1920
-SCREEN_HEIGHT = 1080
+if isLinux():
+	screen_sizes = Gdk.Screen.get_default()	
+	SCREEN_WIDTH =  screen_sizes.get_width()
+	SCREEN_HEIGHT = screen_sizes.get_height()
 
 #-----------------------------------ARGUMENTOS DO FFMPEG---------------------------------------------------------------------------
 class FFMpegArgs(object):
@@ -46,8 +48,9 @@ class FFMpegArgs(object):
 		if self.audioCodec != None:
 			command += self.audioCodec.commandLine
 
-		command += " " + self.output
+		command += " -preset ultrafast -threads 0 " + self.output
 
+		print command
 
 		return command
 
@@ -83,15 +86,16 @@ class FFMpegCaptureArgs(object):
 	@property
 	def commandLine(self):
 		command = ' %s -f %s'  % (self.initialArgs, self.bgDevice)
-		
 		if self.bgWidth != None and self.bgHeight != None:
 			command += ' -video_size %dX%d' % (self.bgWidth, self.bgHeight)
 
+		command += ' -r 30 '
 		command += ' -i %s ' % (self.bgInput)
 		#command = ' %s -f %s -i %s ' % (self.initialArgs, self.bgDevice, self.bgInput )
 
 		if self.fgDevice != None:
-			command += ' %s -f %s -rtbufsize 1500M' % (self.initialArgs, self.fgDevice)
+			if isWindows():
+				command += ' %s -f %s -rtbufsize 1500M' % (self.initialArgs, self.fgDevice)
 
 			if self.fgWidth != None and self.fgHeight != None:
 				command += ' -video_size %dX%d' % (self.fgWidth, self.fgHeight)
@@ -196,22 +200,22 @@ class FFMpegExecutor(object):
 		self.silent = silent
 
 	def execute(self):
-		command = shlex.split(self.args.commandLine)		
+		command = shlex.split(self.args.commandLine)
 		#self.process = subprocess.Popen(self.args.commandLine, creationflags = subprocess.CREATE_NEW_PROCESS_GROUP)
-		
+
 		if self.silent:
 			self.process = subprocess.Popen(command, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.STDOUT)
 		else:
 			self.process = subprocess.Popen(command,stdin=subprocess.PIPE)
-			
+
 
 		return self.process.wait()
 
-	def stop(self):		
-		if self.process != None:			
+	def stop(self):
+		if self.process != None:
 			#enviar q para o ffmpeg fecha o processo
 			self.process.communicate(input = 'q')[0]
-			
+
 
 
 
@@ -271,7 +275,7 @@ def dshowAudio(dshowAudioInput):
 def x11DesktopLinuxCamera(linuxDispositive):
 	args = FFMpegCaptureArgs()
 	args.bgDevice = "x11grab"
-	args.bgInput = ":0.0+100,200" # a partir de que ponto comecar a capturar
+	args.bgInput = ":0.0" # a partir de que ponto comecar a capturar
 	args.bgWidth = SCREEN_WIDTH
 	args.bgHeight = SCREEN_HEIGHT
 
@@ -279,7 +283,7 @@ def x11DesktopLinuxCamera(linuxDispositive):
 	args.fgInput = linuxDispositive
 
 
- 
+
 	args.fgWidth = 320
 	args.fgHeight = 240
 
@@ -290,12 +294,12 @@ def x11DesktopLinuxCamera(linuxDispositive):
 
 
 def x11Desktop():
-	args = FFMpegCaptureArgs()	
+	args = FFMpegCaptureArgs()
 	args.bgDevice = "x11grab"
-	args.bgInput = ":0.0+100,200" # a partir de que ponto comecar a capturar
+	args.bgInput = ":0.0" # a partir de que ponto comecar a capturar
 	args.bgWidth = SCREEN_WIDTH
 	args.bgHeight = SCREEN_HEIGHT
-	
+
 	return args
 
 
@@ -309,8 +313,8 @@ def video4linuxCamera(linuxDispositive):
 #pode ser melhorado
 def pulseAudio():
 	args = FFMpegCaptureArgs();
-	args.bgDevice = "pulse"
-	args.bgInput = "default"
+	args.bgDevice = "alsa"
+	args.bgInput = "pulse"
 
 	return args
 
@@ -417,7 +421,7 @@ def captureWebcam(outputFile = "out.mp4", videoInput = "USB Web-CAM       ", aud
 
 def captureDesktop(outputFile = "out.mp4", audioInput = "Microfone (USB Web-CAM       )"):
 	args = FFMpegArgs()
-	if isWindows():		
+	if isWindows():
 		args.videoIn = gdiDesktop()
 		args.audioIn = dshowAudio(audioInput)
 		args.audioCodec = aac()

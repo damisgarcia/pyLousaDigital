@@ -66,6 +66,7 @@ class Internet(object):
          pass
       return 0
 
+
 # Singleton
 class Authorization(object):
     class __Authorization:
