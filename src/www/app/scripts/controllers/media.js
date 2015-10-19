@@ -30,7 +30,7 @@ angular.module('pyLousaDigitalApp')
       $scope.edit_dialog = true
       $scope.$obj = $scope.repository.thumbnails[index]
       $scope.$obj.$id = index
-      $scope.$obj.new_name = $scope.$obj.name      
+      $scope.$obj.new_name = $scope.$obj.name
     }
 
     $scope.update = function(index){
@@ -45,7 +45,7 @@ angular.module('pyLousaDigitalApp')
 
     $scope.remove = function(index){
       var obj = $scope.repository.thumbnails[index]
-      var params = "id="+index
+      var params = "target="+obj.name
       var url = "/capture/destroy?"+params
       if(confirm("Deseja realmente apagar este arquivo?")){
         $http.get(url).success(function(data){

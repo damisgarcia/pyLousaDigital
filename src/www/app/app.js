@@ -51,7 +51,7 @@ angular.module('pyLousaDigitalApp',['ui.router','flash'])
     .run(function($rootScope,$templateCache,$http,$state,$interval){
       $rootScope.$token = false
       $rootScope.$log = []
-      $rootScope.$isRecording = false      
+      $rootScope.$isRecording = false
 
       $rootScope.$capture = function(){
         var mode = $('.tm-choise-mode .uk-button.uk-active').attr("data-mode")
@@ -66,13 +66,15 @@ angular.module('pyLousaDigitalApp',['ui.router','flash'])
           $rootScope.$isRecording = true
           $rootScope.$log.push(data)
         })
+
+        $rootScope.$start_dialog = false
       }
 
       $rootScope.$stop = function(){
         $http.get("/capture/save").success(function(data){
           $rootScope.$isRecording = false
           $rootScope.$log.push(data)
-          $state.go($state.current, {reload: true}); // Reload View
+          $state.transitionTo('media',null,{reload: true}) // Reload View
         })
       }
 
