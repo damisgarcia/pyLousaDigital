@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 # @author: Damis Garcia
 
@@ -10,11 +9,10 @@ import os.path
 import glob
 import mimetypes
 
-
+import re
 import json
 
 import socket
-import urllib2
 
 class FileManager:
     def __init__(self,path):
@@ -34,10 +32,23 @@ class FileManager:
         return files
     #
 
+    def findFileByName(self,expression):
+        p = "%s/%s.*"%(self.path, expression)
+
+        origins = []
+
+        for filepath in sorted(glob.glob(p)):
+            origins.append(filepath)
+
+        return origins
+
     def rename(self,old,new):
         try:
-            for i in range(1,len(old)) :
-                os.rename(old[i], new[i])
+            for i in old:
+                basename = os.path.basename(i)
+                basename_without_extension =  os.path.splitext(basename)[0]
+                _new = i.replace(basename_without_extension, new)
+                os.rename(i, _new)
             #
             return { "success":True }
         except Exception as e:
@@ -66,88 +77,11 @@ class Internet(object):
          pass
       return 0
 
+import pygame
 
-# Singleton
-class Authorization(object):
-    class __Authorization:
-        credential = ".db/.credential"
-        server = "http://10.0.40.32"
+class Devices(object):
+    class __Webcam:
+        def get_list(self):
+            pygame.camera.list_cameras()
 
-        def __init__(self):
-            self.getToken()
-        #.....
-
-        def getToken(self):
-            try:
-                f = open(self.credential,"r")
-                self.token = f.read()
-                f.close()
-            except Exception as e:
-                self.token = None
-        #....
-
-    instance = __Authorization()
-
-    def __init__(self): pass
-
-    def save(self,params):
-        # Auth
-        try:
-            token = self.__login(params)["access_token"]
-            profile = self.__profile(token)
-            self.__create_credential(token)
-            return {"code":1,"profile":profile,"access_token":self.instance.token}
-        except Exception as e:
-            # HTTPError
-            self.destroy_token()
-            return {"code":0, "status":e.getcode(), "message":e.message}
-
-    #...
-
-    def destroy_token(self):
-        try:
-            os.remove(self.instance.credential)
-            self.instance.token = None
-            return 1
-        except Exception as e:
-            return { "code":0, "error":e.message }
-    #...
-
-    def token(self):
-        if self.instance.token:
-            profile = self.__profile(self.instance.token)
-            return {"code":1,"token":self.instance.token,"profile":profile}
-        else:
-            return {"code":0,"message":"Token de acesso não existe."}
-    #...
-
-    # @privates
-    def __create_credential(self,credential):
-        try:
-            f = open(self.instance.credential,"w")
-            f.write("%s\n" %credential)
-            f.close()
-            self.instance.getToken()
-            return 1
-        except Exception as e:
-            return { "code":0, "exception": e.message }
-    #...
-
-
-    def __login(self,params):
-        url = '%s/oauth/token' %(self.instance.server)
-        req = urllib2.Request(url)
-        req.add_header('Content-Type', 'application/json')
-        response = urllib2.urlopen(req, json.dumps(params))
-        jsonp = json.load(response)
-        return jsonp
-    #...
-
-    def __profile(self,token):
-        url = "%s/api/v1/users/profile?access_token=%s" %(self.instance.server,token)
-        req = urllib2.Request(url)
-        req.add_header('Content-Type', 'application/json')
-        response = urllib2.urlopen(req)
-        jsonp = json.load(response)
-        return jsonp
-    #...
+    WebCam = __Webcam()

@@ -24,22 +24,20 @@ angular.module('pyLousaDigitalApp')
       angular.forEach(data.recorders,function(ele,index){
         ele.extension == "jpg" ? $scope.repository.thumbnails.push(ele) : $scope.repository.media.push(ele)
       })
-    })
 
-    $scope.edit = function(index){
-      $scope.edit_dialog = true
-      $scope.$obj = $scope.repository.thumbnails[index]
-      $scope.$obj.$id = index
-      $scope.$obj.new_name = $scope.$obj.name
-    }
+      angular.forEach($scope.repository.thumbnails,function(ele,index){
+        console.log(ele.path,$scope.repository.media[index].path)
+      })
+
+    })
 
     $scope.update = function(index){
       var obj = $scope.repository.thumbnails[index]
       var params = "old="+obj.name+"&new="+obj.new_name
       var url = "/capture/update?"+params
       $http.get(url).success(function(data){
-        $scope.edit_dialog = false
         obj.name = obj.new_name
+        $state.transitionTo('media',null,{reload: true}) // Reload View
       })
     }
 

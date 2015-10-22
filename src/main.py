@@ -24,6 +24,11 @@ class RunTime(Gtk.VBox):
         # HttpServer
         self.server = HttpServer()
         self.server.start()
+        # Desktop Screen
+        self.screen_sizes = Gdk.Screen.get_default()
+    	SCREEN_WIDTH =  self.screen_sizes.get_width()
+    	SCREEN_HEIGHT = self.screen_sizes.get_height()
+
         # Database
         self.database = DBFactory()
         # Import UI
@@ -33,9 +38,11 @@ class RunTime(Gtk.VBox):
         self.glade.connect_signals(self)
         # Instanciando Window
         self.win = self.glade.get_object("main")
+        self.win.resize(SCREEN_WIDTH, SCREEN_HEIGHT)
         self.win.show_all()
-        self.win.resize(1024, 728)
-        self.win.set_title("Lousa Digital - Version " + self.version)
+
+        self.win.set_title("Digital Class - Version " + self.version)
+        self.win.set_icon_from_file('icon.png')
         self.win.connect("delete-event",self.exitFromClose)
         # Instanciando WebView
         self.appendWebViem( WebView(self.server.port).view )

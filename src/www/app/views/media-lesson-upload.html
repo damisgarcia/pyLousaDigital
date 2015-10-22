@@ -1,0 +1,25 @@
+<div class="tm-popup">
+  <div class="tm-overlayer" ng-click="mediaUploadCtrl.back()"></div>
+  <!--  -->
+  <div class="tm-popup-container uk-block uk-block-secondary">
+    <a class="tm-close" ng-click="mediaUploadCtrl.back()"><span class="ion-close"></span></a>
+    <h3 class="uk-margin-top uk-text-center">
+      Upload <br>
+      <small>{{mediaUploadCtrl.thumb.name}}</small> <br>
+      <small>Selecione a aula que deseja enviar esta captura</small>
+    </h3>
+    <hr>
+    <form ng-show="$token" ng-submit="mediaUploadCtrl.upload()">
+      <div class="grid">
+        <div ng-repeat="lesson in $profile.lessons" class="uk-width-1-2">
+          <input class="uk-form-radio" type="radio" ng-model="mediaUploadCtrl.lesson_id" ng-value="lesson.id" id="radio-{{$index}}"/>
+          <label class="uk-form-label" for="radio-{{$index}}">{{lesson.name}}</label>
+        </div>
+        <div class="uk-margin-large-top uk-margin-large-top uk-margin-large-bottom uk-margin-left">
+          <br>
+          <button class="uk-button uk-button-large uk-button-danger" ng-disabled="mediaUploadCtrl.submit_text" type="submit">{{ mediaUploadCtrl.submit_text || "Enviar Captura" }}</button>
+        </div>
+      </div> <!-- end grid -->
+    </form>
+  </div>
+</div>

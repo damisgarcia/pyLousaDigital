@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 #
@@ -9,16 +8,19 @@ import random
 
 import json
 import re
-import urllib2
+import urllib
 
 import SimpleHTTPServer
 import SocketServer
 
 import os, signal, subprocess
 
+from lousadigital.api.api import API
+from lousadigital.api.api import Authorization
+
+from lousadigital.so.client import *
 from lousadigital.io.io import FileManager
 from lousadigital.io.io import Internet
-from lousadigital.io.io import Authorization
 from lousadigital.ffmpeg.basic import Basic
 import lousadigital.ffmpeg.FFMpeg as ffmpeg
 
@@ -30,6 +32,7 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
     def __init__(self,request, client_address, server, fake=False):
         self.auth = Authorization()
+        self.filemanager = FileManager("www/files")
 
         if fake == False:
             SimpleHTTPServer.SimpleHTTPRequestHandler.__init__(self, request, client_address, server)
@@ -87,7 +90,18 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
         if self.path=='/capture/new':
             #TODO: passar dispositivo de camera e microfone p/ captureWebcamAndDesktop
-            self.queue_recordings.append(Basic(ffmpeg.captureWebcamAndDesktop()))
+            mode = int(self.params["mode"])
+
+            if mode == 1:
+                self.queue_recordings.append(Basic(ffmpeg.captureDesktop()))
+            elif mode == 2:
+                if isLinux():
+                    self.queue_recordings.append(Basic(ffmpeg.captureWebcam(videoInput="/dev/video0")))
+                if isWindows():
+                    self.queue_recordings.append(Basic(ffmpeg.captureWebcam()))
+            elif mode == 3:
+                self.queue_recordings.append(Basic(ffmpeg.captureWebcamAndDesktop()))
+
             self.queue_recordings[-1].start()
             self.setHeader(200)
             self.wfile.write('{"success":"Recording" }')
@@ -95,27 +109,59 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
         elif self.path=='/capture/save':
             self.queue_recordings[-1].ffmpegExec.stop()
-            # os.killpg(self.queue_recordings[-1].process.pid, signal.SIGTERM)
             self.queue_recordings[-1].createThumbnail()
             self.setHeader(200)
             self.wfile.write('{"success":"Is Stoped" }')
             return
 
         elif self.path == '/capture/update':
+            origins = self.filemanager.findFileByName(self.params["old"])
+            self.filemanager.rename(origins,self.params["new"])
+
             self.setHeader(200)
             self.wfile.write('{"success":"Is Stoped" }')
             return
 
         elif self.path == '/capture/destroy':
+            origins = self.filemanager.findFileByName(self.params["target"])
+            self.filemanager.remove(origins)
             self.setHeader(200)
             self.wfile.write('{"success":"Is Stoped" }')
             return
 
-        elif self.path == '/repository/list':
-            self.setHeader(200)
-            body = json.dumps({'recorders': FileManager("www/files").getFiles() })
+        elif self.path == '/capture/upload':
+            try:
+                archives = self.filemanager.findFileByName(self.params["archive"])
+                for archive in archives:
+                    begin = ( len(archive) - 4 )
+                    end = len(archive)
+                    if archive.find(".mp4",begin,end) != -1: API.Uploader.send_file( self.params["access_token"], self.params["lesson_id"], "video", archive )
+                    elif archive.find(".mp3",begin,end) != -1: API.Uploader.send_file( self.params["access_token"], self.params["lesson_id"], "audio", archive )
+
+                self.setHeader(200)
+                body = '{"success":1}'
+                pass
+            except Exception as e:
+                self.setHeader(400)
+                body = '{"success":0, "message": %s}' % e.message
+                pass
+
+
             self.wfile.write(body)
             return
+
+        elif self.path == '/repository/list':
+            self.setHeader(200)
+            body = json.dumps({ 'recorders': self.filemanager.getFiles() })
+            self.wfile.write(body)
+            return
+
+        elif self.path == '/devices/list':
+            self.setHeader(200)
+            body = jsom.dumps({ 'devices': Device.WebCam.getList() })
+            self.wfile.write(body)
+            return
+
         elif self.path == '/connection':
             isConnected = Internet().is_connected()
             self.setHeader(200)
@@ -146,7 +192,7 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         params = {}
         for p in args:
             param = p.split("=")
-            params[param[0]] = param[1]
+            params[param[0]] = urllib.unquote(param[1]) # Normalizando String
         #
         return params
 #...

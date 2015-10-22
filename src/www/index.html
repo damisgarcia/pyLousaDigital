@@ -39,7 +39,7 @@
 
         <flash:messages></flash:messages>
 
-        <div ui-view></div>
+        <div ui-view='yield'></div>
       </div>
     </div>
   </div>
@@ -51,8 +51,8 @@
     </div>
 
     <div class="uk-width-8-10 uk-flex uk-flex-middle uk-flex-center">
-      <button class="uk-button uk-button-primary" ng-click="$start_dialog = true" ng-hide="$isRecording">Iniciar Nova Captura </button>
-      <button class="uk-button uk-button-danger" ng-show="$isRecording" ng-click="$stop()">Finalizar Captura</button>
+      <button class="uk-button uk-button-primary" ng-hide="$isRecording" ui-sref="capture">Iniciar Nova Captura </button>
+      <button class="uk-button uk-button-danger" ng-show="$isRecording" ng-disabled="$freeze" ng-click="$stop()"> {{ $process || "Finalizar Captura" }}</button>
     </div>
 
     <div class="uk-width-1-10 uk-flex uk-flex-middle uk-flex-right tm-right-action">
@@ -61,7 +61,7 @@
     </div>
   </nav>
 
-  <dialog-start-record></dialog-start-record>
+  <div ui-view="dialog"></div>
 
   <!-- vendor.js -->
   <script src="app/bower_components/jquery/dist/jquery.min.js"></script>
@@ -72,8 +72,11 @@
   <!-- end vendor.js -->
   <!-- application -->
   <script src="app/app.js"></script>
+  <script src="app/run.js"></script>
   <script src="app/scripts/controllers/account.js"></script>
   <script src="app/scripts/controllers/media.js"></script>
+  <script src="app/scripts/controllers/media-edit.js"></script>
+  <script src="app/scripts/controllers/media-upload.js"></script>
   <!-- end application -->
 </body>
 </html>
