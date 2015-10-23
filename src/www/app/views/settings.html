@@ -1,1 +1,13 @@
-<h1>Settings</h1>
+<h1>Configurações</h1>
+<hr>
+<div class="uk-grid">
+    <div class="uk-width-1-2">
+      <h3>Dispositivos</h3>
+      <device-cameras></device-cameras>
+      <device-microphones></device-microphones>
+    </div>
+    <div class="uk-width-1-2">
+      <h3>Modo de Gravação</h3>
+      Tamanho da Gravação {{ $screen.availWidth }} x {{ $screen.availHeight }} - {{ $framerate }} frames por segundo.
+    </div>
+</div>

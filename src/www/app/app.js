@@ -65,7 +65,7 @@ angular.module('pyLousaDigitalApp',['ui.router','flash'])
         views: {
           "yield": {
             templateUrl: "app/views/settings.html",
-            controller: "AccountCtrl as account"
+            controller: "SettingsCtrl as settingsCtrl"
           }
         }
       })

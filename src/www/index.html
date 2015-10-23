@@ -54,11 +54,12 @@
       <button class="uk-button uk-button-primary" ng-hide="$isRecording" ui-sref="capture">Iniciar Nova Captura </button>
       <button class="uk-button uk-button-danger" ng-show="$isRecording" ng-disabled="$freeze" ng-click="$stop()"> {{ $process || "Finalizar Captura" }}</button>
     </div>
-
+      
     <div class="uk-width-1-10 uk-flex uk-flex-middle uk-flex-right tm-right-action">
       <a class="uk-button-link uk-pull-right" title="Calibrar"> <i class="ion-qr-scanner"></i> </a>
       <a class="uk-button-link uk-pull-right"> <i class="ion-record" ng-show="$isRecording" style="color:red;"></i> </a>
     </div>
+
   </nav>
 
   <div ui-view="dialog"></div>
@@ -74,9 +75,14 @@
   <script src="app/app.js"></script>
   <script src="app/run.js"></script>
   <script src="app/scripts/controllers/account.js"></script>
+  <script src="app/scripts/controllers/settings.js"></script>
   <script src="app/scripts/controllers/media.js"></script>
   <script src="app/scripts/controllers/media-edit.js"></script>
   <script src="app/scripts/controllers/media-upload.js"></script>
+
+  <!-- directives -->
+  <script src="app/scripts/directives/device-cameras.js"></script>
+  <script src="app/scripts/directives/device-microphones.js"></script>
   <!-- end application -->
 </body>
 </html>

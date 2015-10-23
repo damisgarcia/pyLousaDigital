@@ -78,10 +78,26 @@ class Internet(object):
       return 0
 
 import pygame
+import pygame.camera
+
+import pyaudio
 
 class Devices(object):
     class __Webcam:
         def get_list(self):
-            pygame.camera.list_cameras()
+            pygame.init()
+            pygame.camera.init()
+            return pygame.camera.list_cameras()
+
+    class __Microphone:
+        def get_list(self):
+            pyaudio_devices = pyaudio.PyAudio()
+            devices = []
+            for i in range(pyaudio_devices.get_device_count()):
+                device_name = pyaudio_devices.get_device_info_by_index(i).get('name')
+                device_channel = pyaudio_devices.get_device_info_by_index(i).get('maxInputChannels')
+                devices.append({'name':device_name,'channel':device_channel})
+            return devices
 
     WebCam = __Webcam()
+    Microphone = __Microphone()

@@ -12,5 +12,5 @@ angular.module('pyLousaDigitalApp',[])
     this.media = $location.search()
     var video = document.getElementById('player')
     video.poster = this.media.thumbnail
-    video.src = this.media.url    
+    video.src = this.media.url
   });

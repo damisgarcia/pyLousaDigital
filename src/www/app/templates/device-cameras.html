@@ -1,0 +1,8 @@
+<div class="uk-form uk-width-medium-2-3 tm-device-select">
+  <div class="uk-form-row">
+    <i class="ion-videocamera"></i> <small>Câmera</small>
+    <select class="uk-width-1-1" ng-model="$devices.default_camera">
+      <option ng-value="{{device}}" ng-repeat="device in $devices.cameras">{{ device }}</option>
+    </select>
+  </div>
+</div>

@@ -226,3 +226,9 @@ h1,h2,h3,h4{
 .tm-table tbody tr:hover, .tm-table tbody tr:nth-of-type(odd):hover{
   background-color:#666;
 }
+
+/* DEVICES FORMS */
+.tm-device-select{
+  margin-top: 0.6rem;
+  margin-bottom:0.8rem;
+}

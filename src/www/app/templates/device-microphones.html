@@ -1,0 +1,13 @@
+<div class="uk-form uk-width-medium-2-3 tm-device-select">
+  <div class="uk-form-row">
+    <i class="ion-mic-a"></i> <small>Microfone</small>
+    <select class="uk-width-1-1"
+            ng-model="$devices.default_microphone"
+            ng-options="device.name for device in $devices.microphones"></select>
+    <!-- <select class="uk-width-1-1" ng-model="$devices.default_microphone">
+      <option mg-value="{{device}}" ng-repeat="device in $devices.microphones">
+        {{ device.name }} - {{ (device.channel == 2 ? "Stereo" : "Mono" ) }}
+      </option>
+    </select> -->
+  </div>
+</div>

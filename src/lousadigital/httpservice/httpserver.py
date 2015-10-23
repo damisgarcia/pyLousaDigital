@@ -21,6 +21,7 @@ from lousadigital.api.api import Authorization
 from lousadigital.so.client import *
 from lousadigital.io.io import FileManager
 from lousadigital.io.io import Internet
+from lousadigital.io.io import Devices
 from lousadigital.ffmpeg.basic import Basic
 import lousadigital.ffmpeg.FFMpeg as ffmpeg
 
@@ -91,16 +92,28 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         if self.path=='/capture/new':
             #TODO: passar dispositivo de camera e microfone p/ captureWebcamAndDesktop
             mode = int(self.params["mode"])
+            args = {}
+
+            if self.params["videodevice"]:
+                args["videoInput"] = self.params["videodevice"]
+
+            if self.params["audiodevice"]:
+                args["audioInput"] = "'%s'" % self.params["audiodevice"]
+
+            if self.params["audiochannel"]:
+                args["audioChannel"] = int( self.params["audiochannel"] )
+
+            print args
 
             if mode == 1:
-                self.queue_recordings.append(Basic(ffmpeg.captureDesktop()))
+                self.queue_recordings.append(Basic(ffmpeg.captureDesktop(**args)))
             elif mode == 2:
                 if isLinux():
-                    self.queue_recordings.append(Basic(ffmpeg.captureWebcam(videoInput="/dev/video0")))
+                    self.queue_recordings.append(Basic(ffmpeg.captureWebcam(**args)))
                 if isWindows():
-                    self.queue_recordings.append(Basic(ffmpeg.captureWebcam()))
+                    self.queue_recordings.append(Basic(ffmpeg.captureWebcam(**args)))
             elif mode == 3:
-                self.queue_recordings.append(Basic(ffmpeg.captureWebcamAndDesktop()))
+                self.queue_recordings.append(Basic(ffmpeg.captureWebcamAndDesktop(**args)))
 
             self.queue_recordings[-1].start()
             self.setHeader(200)
@@ -156,9 +169,17 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.wfile.write(body)
             return
 
-        elif self.path == '/devices/list':
+        elif self.path == '/devices/list/webcam':
             self.setHeader(200)
-            body = jsom.dumps({ 'devices': Device.WebCam.getList() })
+            print Devices.WebCam.get_list()
+            body = json.dumps({ 'devices': Devices.WebCam.get_list() })
+            self.wfile.write(body)
+            return
+
+        elif self.path == '/devices/list/mic':
+            self.setHeader(200)
+            print Devices.Microphone.get_list()
+            body = json.dumps({ 'devices': Devices.Microphone.get_list() })
             self.wfile.write(body)
             return
 

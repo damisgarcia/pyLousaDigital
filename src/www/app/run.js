@@ -9,19 +9,34 @@
  */
 angular.module('pyLousaDigitalApp')
 
-.run(function($rootScope,$templateCache,$http,$state,$interval){
+.run(function($rootScope,$templateCache,$http,$state,$interval,$filter){
   $rootScope.$token = false
+  $rootScope.$screen = window.screen
+  $rootScope.$devices = {}
+  $rootScope.$framerate = 25
+
   $rootScope.$log = []
   $rootScope.$isRecording = false
 
   $rootScope.$capture = function(){
     var mode = $('.tm-choise-mode .uk-button.uk-active').attr("data-mode")
-    var url = "/capture/new?mode=" + mode
+    var url = "/capture/new"
 
     if(mode == null || mode == undefined){
       alert("Por favor selecione um modo de captura")
       return false
     }
+
+    var params = "?"
+    params += "mode="+mode+"&"
+    params += "audiodevice=" + $rootScope.$devices.default_microphone.value +"&"
+    params += "audiochannel=" + $rootScope.$devices.default_microphone.channel
+
+    if(mode != 1){
+      params += "&videodevice=" + $rootScope.$devices.default_camera
+    }
+
+    url += params
 
     $http.get(url).success(function(data){
       $rootScope.$isRecording = true
@@ -51,6 +66,27 @@ angular.module('pyLousaDigitalApp')
   $http.get("/auth/token/get").success(function(data){
     $rootScope.$token = data.token
     $rootScope.$profile = data.profile
+  })
+
+  // Get Devices
+  $http.get("/devices/list/webcam").success(function(data){
+    $rootScope.$devices.cameras = data.devices
+    // default
+    $rootScope.$devices.default_camera = data.devices[0]
+  })
+
+  $http.get("/devices/list/mic").success(function(data){
+    var devices = $filter('filter')(data.devices,"hw:")
+    $rootScope.$devices.microphones = []
+
+    angular.forEach(devices,function(device,index){
+      var value = device.name.match(/(hw:[\w\d,]+)/)[0]
+      var microphone = { name:device.name, value:value, channel:device.channel }
+      $rootScope.$devices.microphones.push(microphone)
+    })
+
+    // default
+    $rootScope.$devices.default_microphone = $rootScope.$devices.microphones[0]
   })
 
   /** Observers **/

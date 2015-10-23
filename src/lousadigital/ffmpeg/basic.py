@@ -30,10 +30,6 @@ class Basic(Thread):
         self.output = dt.strftime("%d-%B-%Y-%I-%M-%S")
         self.ffmpegExec.args.output = self.target + self.output + ".mp4"
 
-        if isLinux():
-            self.ffmpegExec.args.videoIn.fgInput = "/dev/video0"
-        #...
-
         self.ffmpegExec.execute()
     #
 
