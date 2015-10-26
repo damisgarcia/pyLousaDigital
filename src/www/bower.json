@@ -17,6 +17,7 @@
     "Ionicons": "ionicons#~2.0.1",
     "angular": "~1.4.6",
     "angular-i18n": "~1.4.6",
-    "uikit": "~2.22.0"
+    "uikit": "~2.22.0",
+    "ng-tags-input": "~3.0.0"
   }
 }

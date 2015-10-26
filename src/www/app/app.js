@@ -7,7 +7,7 @@
  * @description
  * # pyLousaDigitalApp
  */
-angular.module('pyLousaDigitalApp',['ui.router','flash'])
+angular.module('pyLousaDigitalApp',['ui.router','flash','ngTagsInput'])
   .config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/index")
     $stateProvider
@@ -21,15 +21,6 @@ angular.module('pyLousaDigitalApp',['ui.router','flash'])
         }
       })
 
-      .state('media.upload', {
-        url: "/media/:id/upload",
-        views: {
-          "dialog": {
-            templateUrl: "app/views/media-lesson-upload.html",
-            controller: "MediaUploadCtrl as mediaUploadCtrl"
-          }
-        }
-      })
 
       .state('media.edit', {
         url: "/media/:id/edit",
@@ -37,6 +28,16 @@ angular.module('pyLousaDigitalApp',['ui.router','flash'])
           "dialog": {
             templateUrl: "app/views/media-lesson-edit.html",
             controller: "MediaEditCtrl"
+          }
+        }
+      })
+
+      .state('media.upload', {
+        url: "/media/:id/upload",
+        views: {
+          "dialog": {
+            templateUrl: "app/views/media-lesson-upload.html",
+            controller: "MediaUploadCtrl as mediaUploadCtrl"
           }
         }
       })

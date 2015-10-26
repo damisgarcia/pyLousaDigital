@@ -3,23 +3,51 @@
   <!--  -->
   <div class="tm-popup-container uk-block uk-block-secondary">
     <a class="tm-close" ng-click="mediaUploadCtrl.back()"><span class="ion-close"></span></a>
-    <h3 class="uk-margin-top uk-text-center">
-      Upload <br>
-      <small>{{mediaUploadCtrl.thumb.name}}</small> <br>
-      <small>Selecione a aula que deseja enviar esta captura</small>
-    </h3>
-    <hr>
+    <h2 class="uk-text-center">Enviando Captura</h2>
     <form ng-show="$token" ng-submit="mediaUploadCtrl.upload()">
-      <div class="grid">
-        <div ng-repeat="lesson in $profile.lessons" class="uk-width-1-2">
-          <input class="uk-form-radio" type="radio" ng-model="mediaUploadCtrl.lesson_id" ng-value="lesson.id" id="radio-{{$index}}"/>
-          <label class="uk-form-label" for="radio-{{$index}}">{{lesson.name}}</label>
+      <div class="uk-flex">
+        <div class="uk-width-2-3 uk-margin-right uk-margin-left">
+          <p class="grid uk-text-center"><small>Selecione a aula que deseja enviar esta captura</small></p>
+            <fieldset>
+              <legend>Aula</legend>
+              <div class="uk-grid">
+                <div ng-repeat="lesson in $profile.lessons" class="uk-width-1-2">
+                  <input class="uk-form-radio" type="radio" ng-model="mediaUploadCtrl.lesson_id" ng-value="lesson.id" id="radio-{{$index}}"/>
+                  <label class="uk-form-label" for="radio-{{$index}}">{{lesson.name}}</label>
+                </div>
+              </div>
+            </fieldset> <!-- end grid -->
+
+            <fieldset class="uk-margin-top">
+              <legend>Privacidade</legend>
+              <div class="uk-grid">
+                <div class="uk-width-1-2">
+                  <input class="uk-form-radio" type="radio" ng-model="mediaUploadCtrl.private" ng-value="true" id="radio-private"/>
+                  <label class="uk-form-label" for="radio-private">Privado</label>
+                </div>
+                <div class="uk-width-1-2">
+                  <input class="uk-form-radio" type="radio" ng-model="mediaUploadCtrl.private" ng-value="false" id="radio-public"/>
+                  <label class="uk-form-label" for="radio-public">Público</label>
+                </div>
+              </div>
+            </fieldset>
         </div>
-        <div class="uk-margin-large-top uk-margin-large-top uk-margin-large-bottom uk-margin-left">
-          <br>
-          <button class="uk-button uk-button-large uk-button-danger" ng-disabled="mediaUploadCtrl.submit_text" type="submit">{{ mediaUploadCtrl.submit_text || "Enviar Captura" }}</button>
+        <div class="uk-width-1-3 uk-margin-right uk-margin-left">
+          <p class="uk-text-center"><small>{{mediaUploadCtrl.thumb.name}}</small></p>
+          <img ng-src="{{ mediaUploadCtrl.thumb.path }}"/>
         </div>
-      </div> <!-- end grid -->
+      </div>
+      <div class="uk-grid">
+        <div class="uk-width-1-1">
+          <tags-input ng-model="mediaUploadCtrl.tags" placeholder="Adicionar Tag para assunto" class="uk-width-1-1"></tags-input>
+        </div>
+      </div>
+      <hr>
+      <div class="uk-margin-top uk-margin-large-bottom uk-margin-left">
+        <br>
+        <button class="uk-button uk-button-large uk-button-danger" ng-hide="mediaUploadCtrl.seding" type="submit">Enviar Captura</button>
+      </div>
     </form>
   </div>
+  <horizontal-loader ng-show="mediaUploadCtrl.seding"></horizontal-loader>
 </div>

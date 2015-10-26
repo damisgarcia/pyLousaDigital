@@ -6,10 +6,12 @@ import requests
 
 import json
 
+SERVER = "http://22b9af06.ngrok.io/"
+
 class Authorization(object):
     class __Authorization:
         credential = ".db/.credential"
-        server = "http://10.0.40.32"
+        server = "http://22b9af06.ngrok.io"
 
         def __init__(self):
             self.getToken()
@@ -91,7 +93,7 @@ class Authorization(object):
 class API:
     class __Upload:
         def send_file(self,auth_token,lesson,media_lesson,archive):
-            url = "http://localhost:3000/api/v1/repositories/lesson/%s?access_token=%s"%(lesson,auth_token)
+            url = "%s/api/v1/repositories/lesson/%s?access_token=%s"%(SERVER,lesson,auth_token)
             data = {'lesson_media' : media_lesson }
 
             with open(archive,"rb") as f:

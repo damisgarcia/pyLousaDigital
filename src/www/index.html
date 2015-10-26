@@ -5,6 +5,7 @@
     <!-- vendor.css -->
     <link rel="stylesheet" href="app/bower_components/uikit/css/uikit.almost-flat.min.css"/>
     <link rel="stylesheet" href="app/bower_components/Ionicons/css/ionicons.min.css"/>
+    <link rel="stylesheet" href="app/bower_components/ng-tags-input/ng-tags-input.css"/>
     <!-- end vendor.css -->
     <link rel="stylesheet" href="assets/css/theme.css"/>
 </head>
@@ -54,7 +55,7 @@
       <button class="uk-button uk-button-primary" ng-hide="$isRecording" ui-sref="capture">Iniciar Nova Captura </button>
       <button class="uk-button uk-button-danger" ng-show="$isRecording" ng-disabled="$freeze" ng-click="$stop()"> {{ $process || "Finalizar Captura" }}</button>
     </div>
-      
+
     <div class="uk-width-1-10 uk-flex uk-flex-middle uk-flex-right tm-right-action">
       <a class="uk-button-link uk-pull-right" title="Calibrar"> <i class="ion-qr-scanner"></i> </a>
       <a class="uk-button-link uk-pull-right"> <i class="ion-record" ng-show="$isRecording" style="color:red;"></i> </a>
@@ -70,6 +71,7 @@
   <script src="app/bower_components/angular/angular.min.js"></script>
   <script src="app/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
   <script src="app/bower_components/angular-flash/angular-flash.js"></script>
+  <script src="app/bower_components/ng-tags-input/ng-tags-input.js"></script>
   <!-- end vendor.js -->
   <!-- application -->
   <script src="app/app.js"></script>
@@ -83,6 +85,7 @@
   <!-- directives -->
   <script src="app/scripts/directives/device-cameras.js"></script>
   <script src="app/scripts/directives/device-microphones.js"></script>
+  <script src="app/scripts/directives/horizontal-loader.js"></script>
   <!-- end application -->
 </body>
 </html>

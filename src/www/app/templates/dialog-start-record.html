@@ -10,6 +10,17 @@
         <button class="uk-button uk-button-large tm-button uk-margin-top uk-width-1-1" data-mode="3">Tela, Áudio e Webcam</button>
     </div>
     <hr>
+    <div class="uk-flex uk-flex-center">
+      <div class="uk-width-2-3">
+        <div class="uk-form uk-width-medium-1-1 tm-device-select">
+          <device-cameras></device-cameras>
+        </div>
+        <div class="uk-form uk-width-medium-1-1 tm-device-select">
+          <device-microphones></device-microphones>
+        </div>
+      </div>
+    </div>
+    <hr>
     <div class="uk-margin-large-top uk-margin-large-bottom uk-margin-right">
       <button class="uk-button uk-button-large uk-margin-right uk-float-right tm-button" ui-sref="media">Cancelar</button>
       <button class="uk-button uk-button-danger uk-button-large uk-margin-right uk-float-right" ng-click="$capture();$event.stopPropagation();">Capturar</button>

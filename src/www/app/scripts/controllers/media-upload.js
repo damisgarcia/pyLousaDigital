@@ -12,8 +12,10 @@ angular.module('pyLousaDigitalApp')
     var self = this
     self.media = $scope.repository.media[$stateParams.id]
     self.thumb = $scope.repository.thumbnails[$stateParams.id]
+    self.tags = []
+
     self.uploaded = false
-    self.submit_text = null
+    self.seding = false
 
     this.upload = function(){
       var url = "/capture/upload"
@@ -27,18 +29,22 @@ angular.module('pyLousaDigitalApp')
       $http.get(url).success(function(data){
         $timeout(function(){
           self.uploaded = data.success
-          self.submit_text = null
+          self.seding = false
         },1500)
       }).error(function(error){
         flash('danger',(error.message || "Falha no envio por favor tente novamente"))
-        self.submit_text = null
+        self.seding = false
       })
 
-      self.submit_text = "Enviando Captura por favor aguarde alguns instantes"
+      self.seding = true
     }
 
     this.back = function () {
-      if(!self.submit_text)
+      if(!self.seding)
         $state.transitionTo('media',null,{reload: true}) // Reload View
+    }
+
+    this.autocomplete = function(){
+      return self.tags
     }
   });

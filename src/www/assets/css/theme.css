@@ -139,6 +139,10 @@ h1,h2,h3,h4{
 
 
 /*BUTTONS*/
+.uk-button-primary{
+  border-radius: 0px !important;
+}
+
 .tm-button-group{
   float:right;
   margin-top: 0.3rem;
@@ -174,6 +178,43 @@ h1,h2,h3,h4{
   margin: 15px 15px;
 }
 
+.tm-popup form fieldset{
+  overflow:auto;
+  max-height: 240px;
+  margin: 5px 10px;
+  padding: 0.2rem;
+  border-color:#000;
+  background-color:#111;
+  border-radius:3px;
+}
+
+/*CUSTOM TAG LIST INPUT*/
+.tm-popup form .host{
+  margin:12px;
+}
+
+.tm-popup form .tags{
+  border-radius:3px;
+  background-color:#111;
+  border-color:#000;
+  border:none;
+  box-shadow:none;
+}
+
+.tm-popup form tags-input .tags .input{
+  background-color:transparent !important;
+  border-color:#000;
+  color:white;
+}
+.tm-popup form tags-input .tags .input.invalid-tag{
+  color:#ff0000 !important;
+}
+.tm-popup form tags-input .tags .tag-list li{
+  background:#35b3ee !important;
+  border-color:#111;
+  color:white;
+}
+
 .tm-popup .tm-overlayer{
   position: absolute;
   background-color: rgba(0,0,0,0.9);
@@ -198,8 +239,8 @@ h1,h2,h3,h4{
   margin: 4rem auto;
   position: relative;
   top: 0; left: 0; bottom: 0; right: 0;
-  width:600px;
-  height:400px;
+  width:678px;
+  height:auto;
   z-index:100;
 }
 
