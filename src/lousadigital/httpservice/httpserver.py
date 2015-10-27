@@ -101,6 +101,7 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                 args["audioInput"] = "'%s'" % self.params["audiodevice"]
 
             if self.params["audiochannel"]:
+                print self.params["audiochannel"]
                 args["audioChannel"] = int( self.params["audiochannel"] )
 
             print args

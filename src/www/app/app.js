@@ -7,7 +7,14 @@
  * @description
  * # pyLousaDigitalApp
  */
-angular.module('pyLousaDigitalApp',['ui.router','flash','ngTagsInput'])
+angular.module('pyLousaDigitalApp',
+  [
+    'angularUtils.directives.dirPagination',
+    'ui.router',
+    'flash',
+    'ngTagsInput'
+  ]
+)
   .config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/index")
     $stateProvider

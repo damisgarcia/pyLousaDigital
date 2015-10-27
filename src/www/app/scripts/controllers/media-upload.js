@@ -41,7 +41,7 @@ angular.module('pyLousaDigitalApp')
 
     this.back = function () {
       if(!self.seding)
-        $state.transitionTo('media',null,{reload: true}) // Reload View
+        $state.transitionTo('media',null,{reload: false}) // Reload View
     }
 
     this.autocomplete = function(){

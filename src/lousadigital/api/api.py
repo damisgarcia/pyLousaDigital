@@ -5,13 +5,13 @@ import urllib2
 import requests
 
 import json
+import os
 
-SERVER = "http://22b9af06.ngrok.io/"
+SERVER = "http://22b9af06.ngrok.io"
 
 class Authorization(object):
     class __Authorization:
         credential = ".db/.credential"
-        server = "http://22b9af06.ngrok.io"
 
         def __init__(self):
             self.getToken()
@@ -49,7 +49,7 @@ class Authorization(object):
             self.instance.token = None
             return 1
         except Exception as e:
-            return { "code":0, "error":e.message }
+            return { "code":0, "error": e.message }
     #...
 
     def token(self):
@@ -73,7 +73,7 @@ class Authorization(object):
 
 
     def __login(self,params):
-        url = '%s/oauth/token' %(self.instance.server)
+        url = '%s/oauth/token' %(SERVER)
         req = urllib2.Request(url)
         req.add_header('Content-Type', 'application/json')
         response = urllib2.urlopen(req, json.dumps(params))
@@ -82,7 +82,7 @@ class Authorization(object):
     #...
 
     def __profile(self,token):
-        url = "%s/api/v1/users/profile?access_token=%s" %(self.instance.server,token)
+        url = "%s/api/v1/users/profile?access_token=%s" %(SERVER,token)
         req = urllib2.Request(url)
         req.add_header('Content-Type', 'application/json')
         response = urllib2.urlopen(req)

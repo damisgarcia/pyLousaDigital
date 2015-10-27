@@ -26,7 +26,11 @@ angular.module('pyLousaDigitalApp')
       })
 
       angular.forEach($scope.repository.thumbnails,function(ele,index){
-        console.log(ele.path,$scope.repository.media[index].path)
+        ele.path,$scope.repository.thumbnails[index].id = index
+      })
+
+      angular.forEach($scope.repository.media,function(ele,index){
+        ele.path,$scope.repository.media[index].id = index
       })
 
     })

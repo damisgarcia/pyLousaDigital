@@ -3,11 +3,17 @@
 
 FFMPEG_PATH = "ffmpeg-static/bin/"
 #FFMPEG_EXEC = FFMPEG_PATH+"ffmpeg"
-FFMPEG_EXEC = "ffmpeg"
+
 
 from gi.repository import Gdk
 
 from lousadigital.so.client import *
+
+if isLinux():
+	FFMPEG_EXEC = "ffmpeg"
+
+if isWindows():
+	FFMPEG_EXEC = "lib/ffmpeg"
 
 if isLinux():
 	screen_sizes = Gdk.Screen.get_default()

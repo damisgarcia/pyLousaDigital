@@ -273,3 +273,33 @@ h1,h2,h3,h4{
   margin-top: 0.6rem;
   margin-bottom:0.8rem;
 }
+
+
+/*Pagination*/
+
+dir-pagination-controls ul, dir-pagination-controls li{
+  list-style: none;
+  display: inline;
+}
+
+dir-pagination-controls li{
+  margin:5px;
+}
+
+.tm-pagination li a{
+  background-color:#aaa;
+}
+
+.tm-pagination li.active a, .tm-pagination li > a:active{
+  background-color:#fff;
+  color:black;
+}
+
+.tm-pagination li > a:hover{
+  opacity: 0.8;
+}
+
+.tm-pagination li.disable a{
+  opacity:0.5;
+  color:white;
+}
