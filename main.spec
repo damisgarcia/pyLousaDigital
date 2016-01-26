@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['src\\main.py'],
-             pathex=['C:\\Workspace-Sublime\\pyLousaDigital\\dist'],
+             pathex=['dist'],
              binaries=[],
              datas=[],
              hiddenimports=[],
