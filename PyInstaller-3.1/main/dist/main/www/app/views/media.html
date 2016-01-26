@@ -1,0 +1,23 @@
+<div ng-show="!state.includes('media.detail')">
+  <div ng-show="repository.thumbnails.length > 0">
+    <div class="uk-grid">
+      <div class="uk-width-1-3 tm-thumb uk-text-center" dir-paginate="thumb in repository.thumbnails | itemsPerPage: 9">
+        <div class="uk-cover">
+          <a href="player.html#/?url={{repository.media[thumb.id].path}}&thumbnail={{thumb.path}}"><img src="{{thumb.path}}"/></a>
+        </div>
+        <div class="uk-grid">
+          <div class="uk-width-1-1">
+            <div class="tm-button-group uk-margin-large-bottom">
+              <a class="uk-button tm-button uk-button-small" ui-sref="media.upload({id: thumb.id })"><i class="ion-ios-cloud-upload" title="Enviar Gravação"></i></a>
+              <button class="uk-button tm-button uk-button-small" ui-sref="media.edit({id: thumb.id })"><i class="ion-ios-compose-outline" title="Atualizar Informações"></i></button>
+              <button class="uk-button tm-button uk-button-small" ng-click="remove(thumb.id)" ><i class="ion-trash-b" title="Apagar Gravação"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <dir-pagination-controls template-url="app/templates/media-pagination-controls.html"></dir-pagination-controls>
+  </div>
+</div>
+<!-- Dialogs -->
+<div ui-view="dialog"></div>

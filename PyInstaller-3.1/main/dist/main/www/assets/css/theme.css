@@ -1,0 +1,305 @@
+/**
+*
+* Base
+*
+**/
+
+html,body{
+  background-color: #181818;
+  height: 100%;
+}
+
+.tm-base{
+  background-color: #181818;
+  color:#dcdcdc;
+}
+
+.tm-wrapper{
+  min-height: 100%;
+  margin-bottom: -50px;
+}
+.tm-wrapper:after {
+  content: "";
+  display: block;
+}
+
+.tm-well{
+  background-color: #313131;
+  padding:3rem 1rem;
+}
+
+
+/*
+*
+* HEADERS
+*
+*/
+
+h1,h2,h3,h4{
+  color:white;
+}
+
+/*
+*
+* FOOTER
+*
+*/
+
+.tm-footer{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background-color: #111;
+  width: 100%;
+  height: 50px;
+  margin:0 !important;
+  padding:0;
+}
+
+.tm-footer .uk-open > .uk-dropdown{
+  margin-right:-80px;
+}
+
+
+/*
+*
+* NAVBARS
+*
+*/
+
+.tm-nav-left{
+  position: fixed;
+  height:100%;
+  border-right: 1px solid #000;
+}
+
+.tm-nav-left .uk-nav{
+  margin-right: 0.75rem;
+}
+
+.tm-nav-left .uk-nav li > a{
+  font-size:0.7rem;
+  font-weight: bold;
+  color:#dcdcdc;
+}
+
+.tm-nav-left .uk-nav li > a i[class^=ion]{
+  font-weight: normal;
+  font-size:1.4rem;
+  margin-right: 0.6rem;
+}
+
+.tm-nav-left .uk-nav li:hover > a{
+  background-color:#00a8e6;
+  color:#fff;
+  border-radius: 0.3rem;
+}
+
+.tm-nav-left .uk-nav li.active > a{
+  border-left: 3px solid #00a8e6;
+}
+
+.tm-nav-left .uk-nav li.active:hover > a{
+  border-left: 3px solid #fff;
+}
+
+.tm-right-action i{
+  font-size:1.5rem;
+  margin:auto 0.6rem;
+}
+
+/** Media Grid **/
+.tm-media-grid{
+  max-height:100%;
+  margin-left:30%;
+  margin-right:10%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.tm-media .uk-close{
+  font-size:2rem;
+  margin-bottom:1.2rem;
+  opacity:0.7;
+}
+
+.tm-media .uk-close:hover{
+  opacity:0.9;
+}
+
+.tm-media video{
+  background-color: black;
+}
+
+/* THUMB */
+.tm-thumb .title{
+  text-align: center;
+  font-size:0.7rem;
+}
+
+
+/*BUTTONS*/
+.uk-button-primary{
+  border-radius: 0px !important;
+}
+
+.tm-button-group{
+  float:right;
+  margin-top: 0.3rem;
+}
+.tm-button-group .uk-button{
+  color:#aaa;
+  font-size:1.2rem;
+}
+
+.tm-button{
+  background-color: #333;
+  color:#ddd;
+  border-color:#111;
+}
+
+.tm-button:hover{
+  background-color: #555;
+  color:#eee;
+}
+
+
+/* Popups */
+.tm-popup{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  overflow: hidden;
+}
+
+.tm-popup form{
+  margin: 15px 15px;
+}
+
+.tm-popup form fieldset{
+  overflow:auto;
+  max-height: 240px;
+  margin: 5px 10px;
+  padding: 0.2rem;
+  border-color:#000;
+  background-color:#111;
+  border-radius:3px;
+}
+
+/*CUSTOM TAG LIST INPUT*/
+.tm-popup form .host{
+  margin:12px;
+}
+
+.tm-popup form .tags{
+  border-radius:3px;
+  background-color:#111;
+  border-color:#000;
+  border:none;
+  box-shadow:none;
+}
+
+.tm-popup form tags-input .tags .input{
+  background-color:transparent !important;
+  border-color:#000;
+  color:white;
+}
+.tm-popup form tags-input .tags .input.invalid-tag{
+  color:#ff0000 !important;
+}
+.tm-popup form tags-input .tags .tag-list li{
+  background:#35b3ee !important;
+  border-color:#111;
+  color:white;
+}
+
+.tm-popup .tm-overlayer{
+  position: absolute;
+  background-color: rgba(0,0,0,0.9);
+  width:100%;
+  height:100%;
+  z-index: 50;
+}
+.tm-popup .tm-close{
+  position: absolute;
+  top:15px;
+  right:15px;
+  z-index: 90;
+  font-size:1.6rem;
+  color:#ccc;
+}
+
+.tm-popup .tm-close:hover{
+  color:#eee;
+}
+
+.tm-popup .tm-popup-container{
+  margin: 4rem auto;
+  position: relative;
+  top: 0; left: 0; bottom: 0; right: 0;
+  width:678px;
+  height:auto;
+  z-index:100;
+}
+
+.tm-popup-container .tm-choise-mode .uk-button.uk-active{
+  background-color: #d32c46;
+  color:white;
+}
+
+.tm-popup-container hr{
+  border-color: #333 !important;
+  margin:1rem 1.5rem;
+}
+
+/*Tables*/
+.tm-table tbody tr{
+  border-color:#444;
+  background-color:#222;
+}
+
+.tm-table tbody tr:nth-of-type(odd){
+  background-color:#333;
+}
+
+.tm-table tbody tr:hover, .tm-table tbody tr:nth-of-type(odd):hover{
+  background-color:#666;
+}
+
+/* DEVICES FORMS */
+.tm-device-select{
+  margin-top: 0.6rem;
+  margin-bottom:0.8rem;
+}
+
+
+/*Pagination*/
+
+dir-pagination-controls ul, dir-pagination-controls li{
+  list-style: none;
+  display: inline;
+}
+
+dir-pagination-controls li{
+  margin:5px;
+}
+
+.tm-pagination li a{
+  background-color:#aaa;
+}
+
+.tm-pagination li.active a, .tm-pagination li > a:active{
+  background-color:#fff;
+  color:black;
+}
+
+.tm-pagination li > a:hover{
+  opacity: 0.8;
+}
+
+.tm-pagination li.disable a{
+  opacity:0.5;
+  color:white;
+}

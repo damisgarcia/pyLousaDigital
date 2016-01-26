@@ -9,7 +9,7 @@ import sys
 import thread
 
 from lousadigital.so.client import *
-
+import datetime
 from gi.repository import Gtk
 from gi.repository import Gdk
 
@@ -32,7 +32,7 @@ class RunTime(Gtk.VBox):
         # Database
         self.database = DBFactory()
         # Import UI
-        self.gladefile = "../glade/browser-gtk2.glade"
+        self.gladefile = "glade/browser-gtk2.glade"
         self.glade = Gtk.Builder()
         self.glade.add_from_file(self.gladefile)
         self.glade.connect_signals(self)

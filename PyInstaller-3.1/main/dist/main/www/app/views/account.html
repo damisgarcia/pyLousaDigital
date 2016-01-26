@@ -1,0 +1,33 @@
+<h2>
+  {{$profile.name || $profile.email || "Account"}}
+  <button ng-show="$token" class="uk-button uk-button-small uk-float-right uk-button-danger" ng-click="account.destroy()">Logout</button>
+</h2>
+
+<form id="singin" class="uk-form" ng-hide="$token" ng-submit="account.singin()">
+    <fieldset data-uk-margin>
+        <div class="uk-form-row">
+          <input type="text" placeholder="Email" ng-model="account.email" class="uk-width-1-1" ng-class="{'uk-form-danger':account.not_valid_email}">
+          <label class="uk-text-danger uk-float-right" ng-show="account.not_valid_email">Por favor informe a seu email</label>
+        </div>
+        <div class="uk-form-row">
+          <input type="password" placeholder="Password" ng-model="account.password" class="uk-width-1-1" ng-class="{'uk-form-danger':account.not_valid_password}">
+          <label class="uk-text-danger uk-float-right" ng-show="account.not_valid_password">Por favor informe a sua senha</label>
+        </div>
+    </fieldset>
+    <br>
+    <button class="uk-button uk-button-primary" type="submit">Efetuar Login</button>
+</form>
+
+<div ng-show="$token">
+  <table class="uk-table uk-table-striped uk-table-hover tm-table">
+    <tr>
+      <th>Aula</th>
+      <th>Descrição</th>
+      <th>&nbsp;</th>
+    </tr>
+    <tr ng-repeat="lesson in $profile.lessons">
+      <td>{{ lesson.name }}</td>
+      <td colspan="2">{{lesson.description || "Sem descrição."}}</td>
+    </tr>
+  </table>
+</div>

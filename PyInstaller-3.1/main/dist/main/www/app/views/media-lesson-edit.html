@@ -1,0 +1,22 @@
+<form class="uk-form" ng-submit="update(media.$id)">
+  <div class="tm-popup">
+    <div class="tm-overlayer" ui-sref="media"></div>
+    <!--  -->
+    <div class="tm-popup-container uk-block uk-block-secondary">
+      <a class="tm-close" ui-sref="media"><span class="ion-close"></span></a>
+      <h2 class="uk-margin-top uk-text-center">Renomear Captura</h2>
+      <div data-uk-button-radio class="tm-choise-mode uk-width-8-10 uk-container-center uk-margin-large-bottom">
+          <fieldset data-uk-margin>
+              <div class="uk-form-row">
+                <input type="text" placeholder="filename" ng-model="media.new_name" class="uk-width-1-1">
+              </div>
+          </fieldset>
+      </div>
+      <hr class="uk-margin-large-top">
+      <div class="uk-margin-top uk-margin-large-bottom uk-margin-right">
+        <button class="uk-button uk-button-large uk-margin-right uk-float-right tm-button" ui-sref="media">Cancelar</button>
+        <button class="uk-button uk-button-danger uk-button-large uk-margin-right uk-float-right" type="submit">Confirmar</button>
+      </div>
+    </div>
+  </div>
+</form>
