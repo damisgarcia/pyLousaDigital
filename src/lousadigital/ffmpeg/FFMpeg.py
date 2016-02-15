@@ -1,4 +1,4 @@
-
+import os
 #-----------------------------------CONSTANTES---------------------------------------------------------------------------
 
 FFMPEG_PATH = "ffmpeg-static/bin/"
@@ -281,7 +281,8 @@ def dshowAudio(dshowAudioInput):
 def x11DesktopLinuxCamera(linuxDispositive):
 	args = FFMpegCaptureArgs()
 	args.bgDevice = "x11grab"
-	args.bgInput = ":0.0" # a partir de que ponto comecar a capturar
+	# $DISPLAY = Variavel de Sistema representa o id tela
+	args.bgInput = "%s.0" % os.environ['DISPLAY'] # a partir de que ponto comecar a capturar
 	args.bgWidth = SCREEN_WIDTH
 	args.bgHeight = SCREEN_HEIGHT
 
@@ -302,7 +303,7 @@ def x11DesktopLinuxCamera(linuxDispositive):
 def x11Desktop():
 	args = FFMpegCaptureArgs()
 	args.bgDevice = "x11grab"
-	args.bgInput = ":0.0" # a partir de que ponto comecar a capturar
+	args.bgInput = "%s.0" % os.environ['DISPLAY'] # a partir de que ponto comecar a capturar
 	args.bgWidth = SCREEN_WIDTH
 	args.bgHeight = SCREEN_HEIGHT
 

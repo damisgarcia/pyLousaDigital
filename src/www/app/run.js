@@ -86,7 +86,7 @@ angular.module('pyLousaDigitalApp')
     })
 
     // default
-    $rootScope.$devices.default_microphone = $rootScope.$devices.microphones[0]
+    $rootScope.$devices.default_microphone = $rootScope.$devices.microphones[0]    
   })
 
   /** Observers **/

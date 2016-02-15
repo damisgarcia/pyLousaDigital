@@ -94,14 +94,15 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             mode = int(self.params["mode"])
             args = {}
 
-            if self.params["videodevice"]:
+            print  self.params
+
+            if self.params.has_key("videodevice"):
                 args["videoInput"] = self.params["videodevice"]
 
-            if self.params["audiodevice"]:
+            if self.params.has_key("audiodevice"):
                 args["audioInput"] = "'%s'" % self.params["audiodevice"]
 
-            if self.params["audiochannel"]:
-                print self.params["audiochannel"]
+            if self.params.has_key("audiochannel") and int(self.params["audiochannel"]) > 0 :
                 args["audioChannel"] = int( self.params["audiochannel"] )
 
             print args

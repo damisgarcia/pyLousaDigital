@@ -7,7 +7,7 @@ import requests
 import json
 import os
 
-SERVER = "http://22b9af06.ngrok.io"
+SERVER = "http://digitalclass.lme.ufc.br"
 
 class Authorization(object):
     class __Authorization:
@@ -93,8 +93,11 @@ class Authorization(object):
 class API:
     class __Upload:
         def send_file(self,auth_token,lesson,media_lesson,archive):
-            url = "%s/api/v1/repositories/lesson/%s?access_token=%s"%(SERVER,lesson,auth_token)
-            data = {'lesson_media' : media_lesson }
+            url = "%s/api/v1/recordings/lesson/%s?access_token=%s"%(SERVER,lesson,auth_token)
+            data = {
+                'title' : "Lorem Ipsum",
+                'type' : 0
+            }
 
             with open(archive,"rb") as f:
                 files = { "file" : f }
