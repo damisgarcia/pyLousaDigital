@@ -1,0 +1,7 @@
+Package: digital-class
+Priority: optional
+Version: 0.1.6
+Architecture: i386
+Maintainer: Laboratório de Mídias Eletrônicas
+Depends:
+Description: Software de captura de tela e compartilhamento de conteúdo com a plataforma Digital Class

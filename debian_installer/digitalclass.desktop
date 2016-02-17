@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Digital Class
+Comment=Digital Video Capture
+Exec=/etc/digitalclass/digitalclass
+Terminal=false
+Type=Application
+Icon=digitalclass
+Categories=Recorder;Screen;WebBrowser;
+StartupNotify=true
