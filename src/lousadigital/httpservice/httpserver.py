@@ -147,20 +147,35 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         elif self.path == '/capture/upload':
             try:
                 archives = self.filemanager.findFileByName(self.params["archive"])
+
+                # Create Contract in Digital Class Server
+                recording_contract = API.Uploader.create_contract(
+                    self.params["access_token"],
+                    self.params["lesson_id"],
+                    self.params["title"],
+                    self.params["description"],
+                    self.params["privilege"]
+                )
+
+                recording_contract = json.loads(recording_contract)
+
                 for archive in archives:
                     begin = ( len(archive) - 4 )
                     end = len(archive)
-                    if archive.find(".mp4",begin,end) != -1: API.Uploader.send_file( self.params["access_token"], self.params["lesson_id"], "video", archive )
-                    elif archive.find(".mp3",begin,end) != -1: API.Uploader.send_file( self.params["access_token"], self.params["lesson_id"], "audio", archive )
-
+                    if archive.find(".mp4",begin,end) != -1:
+                         API.Uploader.send_file( self.params["access_token"], recording_contract["id"], "video", archive )
+                    elif archive.find(".mp3",begin,end) != -1:
+                         API.Uploader.send_file( self.params["access_token"], recording_contract["id"], "audio", archive )
+                    elif archive.find(".jpg",begin,end) != -1:
+                         API.Uploader.send_file( self.params["access_token"], recording_contract["id"], "poster", archive )
+                         
                 self.setHeader(200)
                 body = '{"success":1}'
                 pass
             except Exception as e:
-                self.setHeader(400)
+                self.setHeader(200)
                 body = '{"success":0, "message": %s}' % e.message
                 pass
-
 
             self.wfile.write(body)
             return

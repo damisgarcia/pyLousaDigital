@@ -22,17 +22,25 @@ angular.module('pyLousaDigitalApp')
       var params = "?"
       params += "access_token="+$rootScope.$token+"&"
       params += "lesson_id="+this.lesson_id+"&"
+      params += "title="+this.title+"&"
+      params += "description="+this.description+"&"
+      params += "privilege="+this.private+"&"
       params += "archive="+this.thumb.name
 
       url += params
 
       $http.get(url).success(function(data){
-        $timeout(function(){
+        if(!!data.success){
           self.uploaded = data.success
           self.seding = false
-        },1500)
+        } else{
+          var message = error.hasOwnProperty("message") || "Falha no envio por favor tente novamente"
+          $rootScope.$flash_danger(message)
+          self.seding = false
+        }
       }).error(function(error){
-        flash('danger',(error.message || "Falha no envio por favor tente novamente"))
+        var message = error.hasOwnProperty("message") || "Falha no envio por favor tente novamente"
+        $rootScope.$flash_danger(message)
         self.seding = false
       })
 

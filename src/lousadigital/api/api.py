@@ -92,17 +92,49 @@ class Authorization(object):
 
 class API:
     class __Upload:
-        def send_file(self,auth_token,lesson,media_lesson,archive):
+        def create_contract(self,auth_token,lesson,title,description,privilege):
             url = "%s/api/v1/recordings/lesson/%s?access_token=%s"%(SERVER,lesson,auth_token)
             data = {
-                'title' : "Lorem Ipsum",
-                'type' : 0
+                'title' : title,
+                'description' : description,
+                'type' : int(privilege)
+            }
+
+            r = requests.post(url, data=data)
+            return r.content
+
+        def send_file(self,auth_token,recording_id,media_type,archive):
+            url = "%s/api/v1/recordings/upload?access_token=%s"%(SERVER,auth_token)
+            data = {
+                'recording_id' : recording_id,
+                'filename' : self.filename_generator(media_type),
+                'type' : self.media_types(media_type)
             }
 
             with open(archive,"rb") as f:
                 files = { "file" : f }
                 r = requests.post(url, data=data, files=files)
                 return r.content
+            #...
+
+        def media_types(self,arg):
+            enum = {
+                "video":0,
+                "audio":1,
+                "poster":2
+            }
+            return enum.get(arg,"invalid")
+        #
+
+        def filename_generator(self,arg):
+            filename = os.urandom(16).encode('hex')
+            enum = {
+                "video":  "%s.%s" % (filename, "mp4"),
+                "audio":  "%s.%s" % (filename, "mp3"),
+                "poster": "%s.%s" % (filename, "jpg")
+            }
+            return enum.get(arg,"invalid")
+        #.
     #...
 
     Uploader = __Upload()

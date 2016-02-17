@@ -201,11 +201,18 @@ h1,h2,h3,h4{
   box-shadow:none;
 }
 
-.tm-popup form tags-input .tags .input{
+.tm-popup form tags-input .tags .input, .tm-controls{
   background-color:transparent !important;
   border-color:#000;
   color:white;
 }
+
+.tm-controls{
+  max-width:95%;
+  margin:auto 5px;
+  border:none;
+}
+
 .tm-popup form tags-input .tags .input.invalid-tag{
   color:#ff0000 !important;
 }

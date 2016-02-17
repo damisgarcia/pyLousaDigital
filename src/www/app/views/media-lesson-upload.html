@@ -9,12 +9,25 @@
         <div class="uk-width-2-3 uk-margin-right uk-margin-left">
           <p class="grid uk-text-center"><small>Selecione a aula que deseja enviar esta captura</small></p>
             <fieldset>
+              <legend>Título</legend>
+              <div class="uk-grid">
+                <input type="text" class="uk-width-1-1 tm-controls" ng-model="mediaUploadCtrl.title"/>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Sobre</legend>
+              <div class="uk-grid">
+                <textarea type="text" class="uk-width-1-1 tm-controls" max-length="145" ng-model="mediaUploadCtrl.description"></textarea>
+              </div>
+            </fieldset>
+
+            <fieldset>
               <legend>Aula</legend>
               <div class="uk-grid">
-                <div ng-repeat="lesson in $profile.lessons" class="uk-width-1-2">
-                  <input class="uk-form-radio" type="radio" ng-model="mediaUploadCtrl.lesson_id" ng-value="lesson.id" id="radio-{{$index}}"/>
-                  <label class="uk-form-label" for="radio-{{$index}}">{{lesson.name}}</label>
-                </div>
+                <select ng-model="mediaUploadCtrl.lesson_id" class="uk-width-1-1">
+                  <option ng-repeat="lesson in $profile.lessons" ng-value="lesson.id">{{lesson.name}}</option>
+                </select>
               </div>
             </fieldset> <!-- end grid -->
 
@@ -22,11 +35,11 @@
               <legend>Privacidade</legend>
               <div class="uk-grid">
                 <div class="uk-width-1-2">
-                  <input class="uk-form-radio" type="radio" ng-model="mediaUploadCtrl.private" ng-value="true" id="radio-private"/>
+                  <input class="uk-form-radio" type="radio" ng-model="mediaUploadCtrl.private" ng-value="0" id="radio-private"/>
                   <label class="uk-form-label" for="radio-private">Privado</label>
                 </div>
                 <div class="uk-width-1-2">
-                  <input class="uk-form-radio" type="radio" ng-model="mediaUploadCtrl.private" ng-value="false" id="radio-public"/>
+                  <input class="uk-form-radio" type="radio" ng-model="mediaUploadCtrl.private" ng-value="1" id="radio-public"/>
                   <label class="uk-form-label" for="radio-public">Público</label>
                 </div>
               </div>

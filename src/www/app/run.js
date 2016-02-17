@@ -9,7 +9,7 @@
  */
 angular.module('pyLousaDigitalApp')
 
-.run(function($rootScope,$templateCache,$http,$state,$interval,$filter){
+.run(function($rootScope,$templateCache,$http,$state,$interval,$timeout,$filter,flash){
   $rootScope.$token = false
   $rootScope.$screen = window.screen
   $rootScope.$devices = {}
@@ -17,6 +17,15 @@ angular.module('pyLousaDigitalApp')
 
   $rootScope.$log = []
   $rootScope.$isRecording = false
+
+  // Alerts
+  $rootScope.$flash_danger = function(message){
+    $timeout(function(){
+      flash('danger',message)
+    },1500)
+  }
+
+
 
   $rootScope.$capture = function(){
     var mode = $('.tm-choise-mode .uk-button.uk-active').attr("data-mode")
@@ -86,7 +95,7 @@ angular.module('pyLousaDigitalApp')
     })
 
     // default
-    $rootScope.$devices.default_microphone = $rootScope.$devices.microphones[0]    
+    $rootScope.$devices.default_microphone = $rootScope.$devices.microphones[0]
   })
 
   /** Observers **/
@@ -95,6 +104,7 @@ angular.module('pyLousaDigitalApp')
       $rootScope.$connection = data
     })
   }
+
 
   isOnline()
   $interval(isOnline,15000)
