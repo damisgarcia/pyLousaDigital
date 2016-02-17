@@ -1,0 +1,1 @@
+alias 'digitalclass'  >= ./digitalclass.sh

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Name=DigitalClass
+Exec=$HOME/python_projects/pyLousaDigital/digitalclass.sh %f
+Icon=$HOME/python_projects/pyLousaDigital/icon.png
+Terminal=false
