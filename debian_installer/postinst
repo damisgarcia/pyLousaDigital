@@ -1,0 +1,15 @@
+#!/bin/sh
+# This script check all dependencies to run digitalclass
+set -e
+# sudo apt-get install ffmpeg
+#
+# # Add Python Installers => pip
+# sudo apt-get install -y python-pip python-dev build-essential
+# sudo pip install --upgrade pip
+# sudo pip install --upgrade virtualenv
+#
+# # Install Python Dependencies
+# # pygame
+# sudo apt-get install -y build-dep python-pygame
+# # pyaudio
+# sudo apt-get install -y python-pyaudio

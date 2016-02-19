@@ -321,7 +321,8 @@ def video4linuxCamera(linuxDispositive):
 def pulseAudio(audioInput,audioChannel):
 	args = FFMpegCaptureArgs();
 	args.bgDevice = "alsa -ac %d" % audioChannel
-	args.bgInput = audioInput
+	args.bgInput = "default"
+	# args.bgInput = audioInput
 
 	return args
 
